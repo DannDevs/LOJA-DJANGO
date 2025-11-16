@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    {%  include 'cadastro_vendedor.html' %}
+
+    <h1>Lista de Produtos<h1>
+        <ul>
+            {% for v in vendedores%}
+                <li>{{ v.codigo }} - {{ v.nome }}  </li>
+            {% empty %}
+               <p> Nenhum vendedor cadastrado </p>
+            {% endfor %}
+        </ul>
+    
+</body>
+</html>
