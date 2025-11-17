@@ -2,24 +2,32 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Roboto', sans-serif;
     color: white;
     
+}
+a{
+  text-decoration: none;
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body{
      background-color: #242424; 
 }
 
-.divcentral{
-    height: 20em;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-direction: column;
-    padding-top: 30px;
-}
 .navint{
     width: 100%;
     height: 3em;
@@ -63,3 +71,137 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+.navint{
+    width: 100%;
+    height: 3em;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background-color: rgb(23, 42, 66);   
+}
+.ulnav{
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+}
+.linavbar{
+    list-style: none;
+    font: optional;
+    font-weight: bold;
+}
+.linkspag{
+    text-decoration: none;
+}
+
+.inputcadastro {
+    width: 100%;
+    max-width: 350px;
+    padding: 10px 14px;
+    background: #f9f9f9;
+    border: 2px solid #d3d3d3;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+/* Quando o usuário clica no input */
+.inputcadastro:focus {
+    border-color: #007bff;
+    background: #ffffff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
+
+/* Placeholder mais suave */
+.inputcadastro::placeholder {
+    color: #888;
+    opacity: 0.8;
+}
+.divcentral{
+    height: 20em;
+    padding-top: 30px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.controlebuttons{
+  width: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+ 
+}
+.buttonsalign{
+  display: flex;
+  width: 40%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.grid{
+
+  height: 40%;
+  width: 73%;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  flex-direction: column;
+
+}
+/* ===== TABELA ===== */
+.tabela-vendedores {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+    font-size: 15px;
+         background-color: #242424; 
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.tabela-vendedores thead {
+    background: #4a6cf7;
+    color: white;
+}
+
+.tabela-vendedores th,
+.tabela-vendedores td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+/* ===== BOTÕES ===== */
+.btn-detalhe,
+.btn-delete {
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    color: white;
+    transition: 0.2s;
+}
+
+.btn-detalhe {
+    background: #3498db;
+}
+
+.btn-detalhe:hover {
+    background: #2a7abd;
+}
+
+.btn-delete {
+    background: #e74c3c;
+    margin-left: 6px;
+}
+
+.btn-delete:hover {
+    background: #c0392b;
+}
+

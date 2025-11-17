@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +10,47 @@
 </head>
 <body>
     {%include 'navbar.html'%}
-    {%include 'cadastro_vendedor.html'%}
+    <div class="divcentral">
+        <div class="controlebuttons">
+            <div class="buttonsalign">
+            <button><a href="{% url 'cadastrovendedor' %}">Novo</a></button>
+            <button>Editar</button>
+            <button><a href="{%url 'removervendedor'%}">Remover</a></button>
+            <button>Reload</button>
+        </div>
+    </div>
+        <div class="grid">
+            <h2>Lista Vendedores</h2>
+          <table class="tabela-vendedores">
+            <thead>
+                <tr>
+                    <th class="colunmgrid" >ID</th>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for v in vendedores %}
+                <tr>
+                    <td>{{ v.id }}</td>
+                    <td>{{ v.codigo }}</td>
+                    <td>{{ v.nome }}</td>
+
+                    <td>
+                        <!-- Link de detalhes -->
+                        <a href="{% url 'vendedores'  %}" class="btn-detalhe">Abrir</a>
+
+                        <!-- Link para deletar -->
+                        <a href="{% url 'vendedores' %}" class="btn-delete">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        </div>
+    </div>
 </body>
 </html>

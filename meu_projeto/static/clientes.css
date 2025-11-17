@@ -19,7 +19,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.cadastro{
+.inputs{
 
 }
 
@@ -81,8 +81,32 @@ button:focus-visible {
 }
 
 .divcentral{
+    height: 20em;
     padding-top: 30px;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.controlebuttons{
+  width: 75%;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+ 
+}
+.buttonsalign{
+  display: flex;
+  width: 40%;
+  justify-content: space-around;
+  align-items: center;
+}
+.grid{
+
+  height: 40%;
+  width: 73%;
+  display: flex;
+  justify-content: start;
+  align-items: start;
+
 }

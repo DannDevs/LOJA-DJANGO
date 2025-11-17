@@ -1,17 +1,35 @@
-
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'home.css'%}">
+</head>
+   {% include 'navbar.html' %}
 <div class="divcentral">
-    <h1>Cadastrar Vendedor</h1>
 
-    {% if erro %}
-        <p style="color: red; font-weight: bold;">  {{erro}}    </p>
-    {% endif %}
+    <div>
+        <button><a href="{% url 'vendedores' %}">Retornar</a></button>
+    </div>
+    <div>
+        <h1>Cadastrar Vendedor</h1>
 
     <form method="post">
         {% csrf_token %}
 
-        <p>Codigo: <input type="text" name="codigo" required></p>
-        <p>Nome: <input type="text" name="nome" required></p>
+        <p>Codigo: <input class="inputcadastro" type="text" name="codigo" required></p>
+        <p>Nome: <input class="inputcadastro" type="text" name="nome" required></p>
         
         <button type="submit">Salvar</button>
     </form>
+
+    {% if erro %}
+        <p style="color: red; font-weight: bold;">  {{erro}}    </p>
+    {% endif %} 
+    </div>
+   
 </div>
+</body>
+</html>
