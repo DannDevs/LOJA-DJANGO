@@ -1,14 +1,17 @@
-<h1>Cadastrar Vendedor</h1>
 
-{% if erro %}
-    <p style="color: red; font-weight: bold;">  {{erro}}    </p>
-{% endif %}
+<div class="divcentral">
+    <h1>Cadastrar Vendedor</h1>
 
-<form method="post">
-    {% csrf_token %}
+    {% if erro %}
+        <p style="color: red; font-weight: bold;">  {{erro}}    </p>
+    {% endif %}
 
-    <p>Codigo: <input type="text" name="codigo" required></p>
-    <p>Nome: <input type="text" name="nome" required></p>
-    
-    <button type="submit">Salvar</button>
-</form>
+    <form method="post">
+        {% csrf_token %}
+
+        <p>Codigo: <input type="text" name="codigo" required></p>
+        <p>Nome: <input type="text" name="nome" required></p>
+        
+        <button type="submit">Salvar</button>
+    </form>
+</div>
