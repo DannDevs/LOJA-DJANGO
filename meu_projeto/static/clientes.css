@@ -19,7 +19,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.divcentral{
+.cadastro{
 
 }
 
@@ -60,10 +60,6 @@ a:hover {
   transition: 2s;
 }
 
-body {
-
-}
-
 
 button {
   border-radius: 8px;
@@ -85,8 +81,8 @@ button:focus-visible {
 }
 
 .divcentral{
-    padding-top: 10px;
+    padding-top: 30px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
 }

@@ -11,10 +11,21 @@
     {% include 'navbar.html'%}
     <div class="divcentral">
         <div id="controlebuttons">
-            <button>Novo</button>
+            <button><a href="{% url 'cadastrocliente' %}">Novo</a></button>
             <button>Editar</button>
             <button>Remover</button>
             <button>Reload</button>
+        </div>
+        <div class="grid">
+            <ul>
+                {%for v in clientes%}
+                    <li class="linavbar">
+                        {{v.codigo}} - {{v.nome}}
+                    </li>
+                {%empty%}
+                    <p>Lista Vazia</p>
+                {%endfor%}
+            </ul>
         </div>
     </div>
 </body>

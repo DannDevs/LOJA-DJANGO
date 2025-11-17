@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'clientes.css'%}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="divcentral">
+        <div>
+            <button><a href="{% url 'clientes' %}">Return</a></button>
+        </div>
+
+        <div class="cadastro">
+            <form method="post">
+                 {% csrf_token %}
+                 
+                 <p><input type="number" name="codigocliente"></p>
+                <p><input type="text" name="nomecliente"></p>
+                <button type="submit">Salvar</button>
+            </form>
+           
+        </div>
+    </div>
+</body>
+</html>

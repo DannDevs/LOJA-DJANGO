@@ -4,15 +4,13 @@ from django.http import HttpResponse
 
 def home(request):
 
-    # lISTAR
-    vendedores = vendedor.objects.all() 
 
-    return render(request, "home.html",
-                {"vendedores": vendedores}
-            )
+    return render(request, "home.html")
 
 def validacod(codigo):
     return vendedor.objects.filter(codigo=codigo).exists()
+def validacodcliente(codigo):
+    return cliente.objects.filter(codigo=codigo).exists()
 
 def vendedor(request):
     erro = None
@@ -36,6 +34,25 @@ def vendedor(request):
             return redirect('/')
     return render(request,'vendedores.html',
                   {"erro":erro})
-def cliente(request):
-    return render(request,'clientes.html')
+
+
+def clienteview(request):
+    clientes = cliente.objects.all()
+    return render(request,'clientes.html',{'clientes':clientes})
+
+
+def cadastro_cliente(request):
+    erro = None
+    
+    if request.method == "POST":
+        codigo = request.POST.get("codigo")
+        nome = request.POST.get("nome")
+
+        if validacodcliente(codigo) ==  True:
+            erro = "Cliente ja cadastrado"
+        else:
+            cliente.objects.create(codigo=codigo,nome=nome)
+            return redirect('cliente')
+    
+    return render(request,'cadastro_cliente.html')
     
