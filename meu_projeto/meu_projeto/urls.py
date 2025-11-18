@@ -22,9 +22,9 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',views.home,name='home'),
     path('vendedores/',views.vendedorview,name='vendedores'),
-    path('vendedores/cadastro',views.cadastro_vendedor,name='cadastrovendedor'),
+    path('vendedores/cadastro/',views.cadastro_vendedor,name='cadastrovendedor'),
     path('vendedores/<int:id>/edit/',views.editar_vendedor,name='editarvendedor'),
-    path('vendedores/deletar',views.vendedorremover,name='removervendedor'),
+    path('vendedores/<int:id>/deletar/',views.vendedorremover,name='removervendedor'),
     path('clientes/',views.clienteview,name='clientes'),
-    path('clientes/cadastro',views.cadastro_cliente,name="cadastrocliente")
+    path('clientes/cadastro/',views.cadastro_cliente,name="cadastrocliente")
 ]

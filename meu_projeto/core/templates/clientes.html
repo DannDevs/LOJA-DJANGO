@@ -6,17 +6,14 @@
     <title>Document</title>
     {% load static %}
     <link rel="stylesheet" href="{%static 'clientes.css'%}">
-    <link rel="stylesheet" href=".css">
 </head>
 <body>
     {% include 'navbar.html'%}
     <div class="divcentral">
         <div  class="controlebuttons">
             <div class="buttonsalign">
-            <button><a href="{% url 'cadastrocliente' %}">Novo</a></button>
-            <button>Editar</button>
-            <button>Remover</button>
-            <button>Reload</button>
+            <button class="buttonp"><a href="{% url 'cadastrocliente' %}">Novo</a></button>
+            <button class="buttonp"><a href="{% url 'clientes' %}">Reload</a></button>
         </div>
     </div>
     <div class="grid">

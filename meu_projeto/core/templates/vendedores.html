@@ -13,8 +13,8 @@
     <div class="divcentral">
         <div class="controlebuttons">
             <div class="buttonsalign">
-            <button><a href="{% url 'cadastrovendedor' %}">Novo</a></button>
-            <button>Reload</button>
+            <button class="buttonp"><a href="{% url 'cadastrovendedor' %}">Novo</a></button>
+            <button class="buttonp"><a href="{% url 'vendedores' %}">Reload</a></button>
         </div>
     </div>
         <div class="grid">
@@ -41,7 +41,7 @@
                         <a href="{% url 'editarvendedor' v.id  %}" class="btn-detalhe">Abrir</a>
 
                         <!-- Link para deletar -->
-                        <a href="{% url 'editarvendedor' v.id %}" class="btn-delete">Excluir</a>
+                        <a href="{% url 'removervendedor' v.id %}" class="btn-delete">Excluir</a>
                     </td>
                 </tr>
                 {% endfor %}

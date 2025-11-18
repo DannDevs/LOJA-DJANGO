@@ -11,7 +11,7 @@
 <div class="divcentral">
 
     <div>
-        <button><a href="{% url 'vendedores' %}">Retornar</a></button>
+        <button class="buttonp" ><a href="{% url 'vendedores' %}">Retornar</a></button>
     </div>
     <div>
         <h1>Cadastrar Vendedor</h1>
@@ -22,7 +22,7 @@
         <p>Codigo: <input class="inputcadastro" type="text" name="codigo" required></p>
         <p>Nome: <input class="inputcadastro" type="text" name="nome" required></p>
         
-        <button type="submit">Salvar</button>
+        <button class="buttonp"  type="submit">Salvar</button>
     </form>
 
     {% if erro %}

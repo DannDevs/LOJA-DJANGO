@@ -19,9 +19,6 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.inputs{
-
-}
 
 .navint{
     width: 100%;
@@ -30,7 +27,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    background-color: rgb(23, 42, 66);   
+    background-color: #112058; 
 }
 .ulnav{
     display: flex;
@@ -61,7 +58,7 @@ a:hover {
 }
 
 
-button {
+.buttonp {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -72,11 +69,11 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+.buttonp:hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
+.buttonp:focus,
+.buttonp:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
@@ -92,12 +89,12 @@ button:focus-visible {
   width: 75%;
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: end;
  
 }
 .buttonsalign{
   display: flex;
-  width: 40%;
+  width: 20%;
   justify-content: space-around;
   align-items: center;
 }

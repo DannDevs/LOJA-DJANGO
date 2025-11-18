@@ -11,7 +11,7 @@
     {% include 'navbar.html' %}
     <div class="divcentral">
         <div>
-            <button><a href="{% url 'clientes' %}">Return</a></button>
+            <button class="buttonp" ><a href="{% url 'clientes' %}">Return</a></button>
         </div>
 
         <div class="cadastro">
@@ -20,7 +20,7 @@
                  {% csrf_token %}
                  <p>Codigo: <input class="inputcadastro" class="inputs" type="number" name="codigocliente"></p>
                 <p>Nome: <input class="inputcadastro" class="inputs" type="text" name="nomecliente"></p>
-                <button type="submit">Salvar</button>
+                <button class="buttonp"  type="submit">Salvar</button>
             </form>
             {% if erro %}
                 <p style="color: red; font-weight: bold;">  {{erro}}    </p>

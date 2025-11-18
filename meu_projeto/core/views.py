@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from .models import cliente,vendedor
 from django.http import HttpResponse
 
@@ -19,11 +19,25 @@ def validacodcliente(codigo):
 # VENDEDORES
 
 def editar_vendedor(request,id):
+    erro = None
 
-    vend = vendedor.objects.get(id=id)
+    vend = get_object_or_404(vendedor,id=id)
+
+    if request.method == 'POST':    
+        codigo = request.POST.get('codigo')
+        nome = request.POST.get('nome')
+
+        if validacod(codigo) == True and vend.codigo != codigo:
+            erro = "Codigo Já Cadastrado"
+        else:
+            vend.codigo = codigo
+            vend.nome = nome
+            vend.save()
+            return redirect('vendedores')
+             
 
     return render(request,'editarvendedor.html',
-    {'vend':vend}
+    {'vend':vend,'erro':erro}
     )
 
 def vendedorview(request):
@@ -33,16 +47,13 @@ def vendedorview(request):
     return render(request,'vendedores.html',{
         'vendedores':vendedores})
 
-def vendedorremover(request):
+#  ------------ REMOVER ------------
 
-    if request.method == "POST":
+def vendedorremover(request,id):
 
-        id = request.POST.get("codigo")
-
-        vendedor.objects.filter(id=id).delete()
-        return redirect('vendedores')
+    vendedor.objects.filter(id=id).delete()
+    return redirect('vendedores')
     
-    return render(request,'remover_vendedor.html')
 
 def cadastro_vendedor(request):
     erro = None

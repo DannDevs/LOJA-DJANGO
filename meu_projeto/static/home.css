@@ -35,7 +35,7 @@ body{
     display: flex;
     align-items: center;
     justify-content: space-around;
-    background-color: rgb(23, 42, 66);  
+    background-color: #112058;  
 }
 .ulnav{
     display: flex;
@@ -53,7 +53,7 @@ body{
     text-decoration: none;
 }
 
-button {
+.buttonp {
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em 1.2em;
@@ -64,21 +64,12 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
+.buttonp:hover {
   border-color: #646cff;
 }
-button:focus,
-button:focus-visible {
+.buttonp:focus,
+.buttonp:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-.navint{
-    width: 100%;
-    height: 3em;
-    padding: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    background-color: rgb(23, 42, 66);   
 }
 .ulnav{
     display: flex;
@@ -113,7 +104,7 @@ button:focus-visible {
     max-width: 350px;
     padding: 10px 14px;
     background: #8b8989;
-    border: 2px solid #d3d3d3;
+    border: 2px solid #8b8989;
     border-radius: 8px;
     font-size: 16px;
     color: black;
@@ -145,12 +136,12 @@ button:focus-visible {
   width: 75%;
   display: flex;
   align-items: center;
-  justify-content: start;
+  justify-content: end;
  
 }
 .buttonsalign{
-  display: flex;
-  width: 40%;
+  display: flex;    
+  width: 20%;
   justify-content: space-around;
   align-items: center;
 }
@@ -179,7 +170,7 @@ button:focus-visible {
 }
 
 .tabela-vendedores thead {
-    background: #4a6cf7;
+    background: #112058;
     color: white;
 }
 
@@ -217,8 +208,29 @@ button:focus-visible {
     background: #c0392b;
 }
 .formularios{
-    padding-bottom: 20cm;
+    display: flex;
+    justify-content: space-around; 
+    flex-direction: column;
+    height: 20em;
 }
 .boldtext{
     font-weight: bold;
+}
+.checkbutton{
+    background-color: green;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    padding: 0.6em 1.2em;
+    font-size: 1em;
+    font-weight: 500;
+    font-family: inherit;
+    cursor: pointer;
+    transition: border-color 0.25s;
+}
+.checkbutton:hover {
+  border-color: #646cff;
+}
+.checkbutton:focus,
+.checkbutton:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 }

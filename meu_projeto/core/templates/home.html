@@ -19,9 +19,9 @@
             <ul>
                 {% for v in vendedores%}
                    <li class="linavbar">{{ v.codigo }} - {{ v.nome }}  </li>
-             {% empty %}
+                {% empty %}
                    <p> Nenhum vendedor cadastrado </p>
-             {% endfor %}
+                {% endfor %}
             </ul>
     </div> 
 </body>

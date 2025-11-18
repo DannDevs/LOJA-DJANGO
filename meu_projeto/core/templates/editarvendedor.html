@@ -12,16 +12,20 @@
 <body>
     {% include 'navbar.html' %}
     <div class="divcentral">
-    <p class="textomedio">Vendedor</p>
-    
-    <form  method="post">
-        {% csrf_token %}
-        <div class="formularios">
-        <p class="boldtext">ID<input class="inputcadastrodisable"  name="id" value="{{ vend.id }}" disabled></p>
-      
-        <p class="boldtext" >Codigo<input class="inputcadastro" type="text" name="codigo" value="{{ vend.codigo }}"></p>
-      
-        <p class="boldtext">Nome<input class="inputcadastro" type="text" name="nome" value="{{vend.nome}}"></p>
+   
+        <button class="buttonp"><a href="{% url 'vendedores' %}">Retornar</a></button>
+        <br>
+         <p class="boldtext">Vendedor {{vend.id}} </p>
+        <form  method="post">
+            {% csrf_token %}
+            <div class="formularios">
+                <p class="boldtext">ID<input class="inputcadastrodisable"  name="id" value="{{ vend.id }}" disabled></p>
+                <p class="boldtext" >Codigo<input class="inputcadastro" type="text" name="codigo" value="{{ vend.codigo }}"></p>
+                <p class="boldtext">Nome<input class="inputcadastro" type="text" name="nome" value="{{vend.nome}}"></p>
+                {% if erro %}
+                <p style="font-weight: bold;color: red;">{{ erro }}</p>
+                {% endif %}
+                <button class="checkbutton" type="submit">Salvar</button>
         </div>
     </form>
     </div>
