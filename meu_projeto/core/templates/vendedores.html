@@ -14,8 +14,6 @@
         <div class="controlebuttons">
             <div class="buttonsalign">
             <button><a href="{% url 'cadastrovendedor' %}">Novo</a></button>
-            <button>Editar</button>
-            <button><a href="{%url 'removervendedor'%}">Remover</a></button>
             <button>Reload</button>
         </div>
     </div>
@@ -40,10 +38,10 @@
 
                     <td>
                         <!-- Link de detalhes -->
-                        <a href="{% url 'vendedores'  %}" class="btn-detalhe">Abrir</a>
+                        <a href="{% url 'editarvendedor' v.id  %}" class="btn-detalhe">Abrir</a>
 
                         <!-- Link para deletar -->
-                        <a href="{% url 'vendedores' %}" class="btn-delete">Excluir</a>
+                        <a href="{% url 'editarvendedor' v.id %}" class="btn-delete">Excluir</a>
                     </td>
                 </tr>
                 {% endfor %}

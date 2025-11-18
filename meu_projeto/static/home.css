@@ -108,6 +108,18 @@ button:focus-visible {
     outline: none;
     transition: 0.2s ease;
 }
+.inputcadastrodisable{
+    width: 100%;
+    max-width: 350px;
+    padding: 10px 14px;
+    background: #8b8989;
+    border: 2px solid #d3d3d3;
+    border-radius: 8px;
+    font-size: 16px;
+    color: black;
+    outline: none;
+    transition: 0.2s ease;
+}
 
 /* Quando o usuário clica no input */
 .inputcadastro:focus {
@@ -204,4 +216,9 @@ button:focus-visible {
 .btn-delete:hover {
     background: #c0392b;
 }
-
+.formularios{
+    padding-bottom: 20cm;
+}
+.boldtext{
+    font-weight: bold;
+}

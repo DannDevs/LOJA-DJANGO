@@ -18,6 +18,14 @@ def validacodcliente(codigo):
 
 # VENDEDORES
 
+def editar_vendedor(request,id):
+
+    vend = vendedor.objects.get(id=id)
+
+    return render(request,'editarvendedor.html',
+    {'vend':vend}
+    )
+
 def vendedorview(request):
     # ------ LISTAR ---------
     vendedores = vendedor.objects.all()
