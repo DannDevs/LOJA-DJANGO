@@ -13,3 +13,9 @@ class vendedor(models.Model):
 
     def __str__(self):
         return self.nome
+    
+class produto(models.Model):
+    codigo = models.IntegerField()
+    descricao = models.CharField(max_length=100)
+    preco = models.DecimalField(max_digits=10,decimal_places=2)
+    quantidadeestoque = models.DecimalField(max_digits=10,decimal_places=2,default=0)

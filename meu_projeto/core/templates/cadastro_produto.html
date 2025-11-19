@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Produtos</title>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'produtos.css'%}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="divcentral">
+        <div>
+            <button class="buttonp" ><a href="{% url 'clientes' %}">Return</a></button>
+        </div>
+
+        <div class="cadastro">
+    
+            <form method="post">
+                
+                {% csrf_token %}
+                <p>Codigo: <input class="inputcadastro" class="inputs" type="number" name="codigo"></p>
+                <p>Descriçao: <input class="inputcadastro" class="inputs" type="text" name="descricao"></p>
+                <p>Preço: <input class="inputcadastro" class="inputs" type="text" name="preco"></p>
+                <p>Quantidade: <input class="inputcadastro" class="inputs" type="text" name="quantidade"></p>
+                <button class="buttonp"  type="submit">Salvar</button>
+            </form>
+            {% if erro %}
+                <p style="color: red; font-weight: bold;">  {{erro}} </p>
+            {% elif sucesso %}
+                <p style="color: green;font-weight: bold;">{{sucesso}}</p>
+            {% endif%}
+           
+        </div>
+    </div>
+</body>
+</html>

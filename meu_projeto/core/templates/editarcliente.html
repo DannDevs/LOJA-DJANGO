@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'clientes.css' %}">
+
+    <title>EDITAR</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div class="divcentral">
+   
+        <button class="buttonp"><a href="{% url 'clientes' %}">Retornar</a></button>
+        <br>
+         <p class="boldtext">Cliente {{cli.id}} </p>
+        <form  method="post">
+            {% csrf_token %}
+            <div class="formularios">
+                <p class="boldtext">ID<input class="inputcadastrodisable"  name="id" value="{{ cli.id }}" disabled></p>
+                <p class="boldtext" >Codigo<input class="inputcadastro" type="text" name="codigo" value="{{ cli.codigo }}"></p>
+                <p class="boldtext">Nome<input class="inputcadastro" type="text" name="nome" value="{{cli.nome}}"></p>
+                {% if erro %}
+                <p style="font-weight: bold;color: red;">{{ erro }}</p>
+                {% endif %} 
+                <button class="checkbutton" type="submit">Salvar</button>
+        </div>
+    </form>
+    </div>
+</body>
+</html>

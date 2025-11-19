@@ -15,7 +15,7 @@
         </div>
 
         <div class="cadastro">
-    
+            
             <form method="post" action="{% url 'cadastrocliente' %}" >
                  {% csrf_token %}
                  <p>Codigo: <input class="inputcadastro" class="inputs" type="number" name="codigocliente"></p>
@@ -24,7 +24,7 @@
             </form>
             {% if erro %}
                 <p style="color: red; font-weight: bold;">  {{erro}}    </p>
-            {% elif erro %}
+            {% elif sucesso %}
                 <p style="color: green;font-weight: bold;">{{sucesso}}</p>
             {% endif%}
            

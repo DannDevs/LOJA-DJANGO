@@ -16,17 +16,37 @@
             <button class="buttonp"><a href="{% url 'clientes' %}">Reload</a></button>
         </div>
     </div>
+    
     <div class="grid">
-        <ul>
-            <h2>Lista Clientes</h2>
-            {%for v in clientes%}
-                <li class="linavbar">
-                    {{v.codigo}} - {{v.nome}}
-                </li>
-            {%empty%}
-                <p>Lista Vazia</p>
-            {%endfor%}
-            </ul>
+    <h2 class="boldtext">Lista Clientes</h2>
+     <table class="tabela-vendedores">
+            <thead>
+                <tr>
+                    <th class="colunmgrid" >ID</th>
+                    <th>Código</th>
+                    <th>Nome</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for c in clientes %}
+                <tr>
+                    <td>{{ c.id }}</td>
+                    <td>{{ c.codigo }}</td>
+                    <td>{{ c.nome }}</td>
+
+                    <td>
+                        <!-- Link de detalhes -->
+                        <a href="{% url 'editarcliente' c.id %}" class="btn-detalhe">Abrir</a>
+
+                        <!-- Link para deletar -->
+                        <a href="{% url 'removercliente' c.id  %}" class="btn-delete">Excluir</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         </div>
     </div>
 </body>

@@ -2,6 +2,11 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    color: white;
+    
+}
+a{
+  text-decoration: none;
 }
 
 :root {
@@ -19,42 +24,8 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.inputcadastro {
-    width: 100%;
-    max-width: 350px;
-    padding: 10px 14px;
-    background: #f9f9f9;
-    border: 2px solid #d3d3d3;
-    border-radius: 8px;
-    font-size: 16px;
-    color: #333;
-    outline: none;
-    transition: 0.2s ease;
-}
-.inputcadastrodisable{
-    width: 100%;
-    max-width: 350px;
-    padding: 10px 14px;
-    background: #8b8989;
-    border: 2px solid #8b8989;
-    border-radius: 8px;
-    font-size: 16px;
-    color: black;
-    outline: none;
-    transition: 0.2s ease;
-}
-
-/* Quando o usuário clica no input */
-.inputcadastro:focus {
-    border-color: #007bff;
-    background: #ffffff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
-}
-
-/* Placeholder mais suave */
-.inputcadastro::placeholder {
-    color: #888;
-    opacity: 0.8;
+body{
+     background-color: #242424; 
 }
 
 .navint{
@@ -64,7 +35,7 @@
     display: flex;
     align-items: center;
     justify-content: space-around;
-    background-color: #112058; 
+    background-color: #112058;  
 }
 .ulnav{
     display: flex;
@@ -80,14 +51,6 @@
 }
 .linkspag{
     text-decoration: none;
-}
-
-
-
-a {
-  font-weight: 500;
-  color: #ffffff;
-  text-decoration: inherit;
 }
 
 .buttonp {
@@ -108,7 +71,6 @@ a {
 .buttonp:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-
 .divcentral{
     height: 20em;
     padding-top: 30px;
@@ -125,11 +87,12 @@ a {
  
 }
 .buttonsalign{
-  display: flex;
+  display: flex;    
   width: 20%;
   justify-content: space-around;
   align-items: center;
 }
+
 .grid{
 
   height: 40%;
