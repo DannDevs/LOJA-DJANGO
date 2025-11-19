@@ -135,10 +135,10 @@ def produtoview(request):
     return render(request,'produtos.html',{'produtos':produtos})
 
 def cadastro_produto(request):
-
     if request.method == 'POST':
-        print('post')        
-    
+        codigo = request.POST.get("codigo")
+        descricao = request.POST.get("descricao")
+        
     return render(request,'cadastro_produto.html')
     
     
