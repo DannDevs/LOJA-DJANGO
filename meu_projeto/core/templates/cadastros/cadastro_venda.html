@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro - Venda</title>
+    {% load static %}
+    <link rel="stylesheet" href="{%static 'venda.css'%}">
+</head>
+<body>
+    {% include 'components/navbar.html'%}
+    <div class="divcentralc">
+        <div class="retornarpag">
+            <button class="buttonp" ><a href="{% url 'vendas' %}">Return</a></button>
+        </div>
+        <div class="cadastro">
+            <form method="post" class="row g-3 p-4 rounded shadow-sm bg-dark">
+            {% csrf_token %}
+
+                <h4 class="fw-bold text-primary">Pedido De Venda</h4>
+
+                   <!-- Exemplo de campo numérico -->
+                <div class="col-md-6">
+                    <label class="form-label">Código</label>
+                    <input type="number" name="codigo" class="form-control" required>
+                </div>
+
+                    <div class="col-md-6">
+                    <label class="form-label">Cliente</label>
+                    <select name="vendedor" class="form-select" required>
+                        <option value="">Selecione...</option>
+                        {% for c in clientes %}
+                            <option value="{{ c.id }}">{{c.codigo}} - {{ c.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Select (ForeignKey) -->
+                <div class="col-md-6">
+                    <label class="form-label">Vendedor</label>
+                    <select name="vendedor" class="form-select" required>
+                        <option value="">Selecione...</option>
+                        {% for v in vendedores %}
+                            <option value="{{ v.id }}">{{v.codigo}} - {{ v.nome }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                  <div class="col-md-12 text-start">
+                    <h4 class="fw-bold text-primary text-start">Itens Da Venda</h4>
+
+                      <div class="col-md-6">
+                    <label class="form-label">Vendedor</label>
+                    <select name="vendedor" class="form-select" required>
+                        <option value="">Selecione...</option>
+                        {% for v in vendedores %}
+                            <option value="{{ v.id }}">{{v.codigo}} - {{ v.nome }}</option>
+                        {% endfor %}
+                     </select>
+                     </div>
+
+
+
+                    <div class="col-md-6">
+                    <label class="form-label">Código</label>
+                    <input type="number" name="codigo" class="form-control" required>
+                    </div>
+                    </div>
+                
+
+                <!-- Botões -->
+                <div class="col-12 text-end mt-3">
+                    <a href="{% url 'vendas' %}" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-success">Salvar</button>
+                </div>
+
+            </form>
+
+            {% if erro %}
+                <p style="color: red; font-weight: bold;">  {{erro}} </p>
+            {% elif sucesso %}
+                <p style="color: green;font-weight: bold;">{{sucesso}}</p>
+            {% endif%}
+           
+        </div>
+    </div>
+</body>
+</html>

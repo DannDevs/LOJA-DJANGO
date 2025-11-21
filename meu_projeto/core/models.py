@@ -19,3 +19,16 @@ class produto(models.Model):
     descricao = models.CharField(max_length=100)
     preco = models.DecimalField(max_digits=10,decimal_places=2)
     quantidadeestoque = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+
+class venda(models.Model):
+    codigo = models.IntegerField()
+    cliente = models.ForeignKey(cliente, on_delete=models.PROTECT)
+    vendedor = models.ForeignKey(vendedor, on_delete=models.PROTECT)
+    valor = models.DecimalField(max_digits=10,decimal_places=2)
+
+class itemvenda(models.Model):
+    codigo = models.IntegerField()
+    venda = models.ForeignKey(venda, on_delete=models.CASCADE)
+    produto = models.ForeignKey(produto, on_delete=models.PROTECT)
+    quantidade = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+    preco_unitario = models.DecimalField(max_digits=10,decimal_places=2,default=0)

@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import cliente,vendedor,produto
+from .models import cliente,vendedor,produto,venda,itemvenda
 from django.http import HttpResponse
 
 # HOME PAGE
@@ -12,13 +12,15 @@ def home(request):
 # VALIDADORES
 
 def validacod(codigo):
-    return vendedor.objects.filter(codigo=codigo).exists()
+    return vendedor.objects.filter(codigo=codigo).exists() 
 def validacodcliente(codigo):
-    return cliente.objects.filter(codigo=codigo).exists()
-def validacodproduto(codigo):
+    return cliente.objects.filter(codigo=codigo).exists() 
+def validacodproduto(codigo): 
     return produto.objects.filter(codigo=codigo).exists()
 def validaquantidade(quantidade):
     return quantidade > -1
+def validacodvenda(codigo):
+    return venda.objects.filter(codigo=codigo).exists()
 
 # VENDEDORES
 
@@ -28,7 +30,7 @@ def editar_vendedor(request,id):
     vend = get_object_or_404(vendedor,id=id)
 
     if request.method == 'POST':    
-        codigo = request.POST.get('codigo')
+        codigo = int(request.POST.get('codigo'))
         nome = request.POST.get('nome')
 
         if validacod(codigo) == False and vend.codigo != codigo:  
@@ -63,7 +65,7 @@ def cadastro_vendedor(request):
     erro = None
 
     if request.method == "POST":
-        codigo = request.POST.get("codigo")
+        codigo = int(request.POST.get("codigo"))
         nome = request.POST.get("nome")
 
         if not codigo or not nome:
@@ -92,7 +94,7 @@ def editar_cliente(request,id):
     cli = get_object_or_404(cliente,id=id)
 
     if request.method == "POST":
-        codigo = request.POST.get('codigo')
+        codigo = int(request.POST.get('codigo'))
         nome = request.POST.get('nome')
         if validacod(codigo) == False and codigo != cli.codigo:
             cli.codigo = codigo
@@ -116,7 +118,7 @@ def cadastro_cliente(request):
     erro = None
     
     if request.method == "POST":
-        codigo = request.POST.get("codigocliente")
+        codigo = int(request.POST.get("codigocliente"))
         nome = request.POST.get("nomecliente")
 
         if validacodcliente(codigo) ==  True:
@@ -140,7 +142,7 @@ def cadastro_produto(request):
     erro = None
 
     if request.method == 'POST':
-        codigo = request.POST.get("codigo")
+        codigo = int(request.POST.get("codigo"))
         if validacodproduto(codigo) == False:
             descricao = request.POST.get("descricao")
             preco = request.POST.get("preco")
@@ -163,7 +165,7 @@ def editar_produto(request,id):
     prod = produto.objects.get(id=id)
 
     if request.method == 'POST':
-        codigo = request.POST.get("codigo")
+        codigo = int(request.POST.get("codigo"))
         descricao = request.POST.get("descricao")
         preco = request.POST.get("preco")
 
@@ -184,6 +186,43 @@ def remover_produto(request,id):
     produto.objects.get(id=id).delete()
     return redirect('produtos')
 
+# ------- VENDAS VIEW -------
+
 def vendaview(request):
+
     return render(request,'modelos/vendas.html')
     
+def cadastro_venda(request):
+
+    clientes = cliente.objects.all()
+    vendedores = vendedor.objects.all()
+
+    erro = None
+    cli = None
+    ven = None
+
+    if request.method == 'POST':   
+        codigo = int(request.POST.get('codigo'))
+        cliente_id = request.POST.get('cliente')
+        vendedor_id = request.POST.get('vendedor')
+
+        cli = get_object_or_404(cliente,id=cliente_id)
+        ven = get_object_or_404(vendedor,id=vendedor_id)
+        if validacodvenda(codigo) == False:
+            if validacodcliente(cli.codigo) == True:
+                if validacod(ven.codigo) == True:    
+                    
+                    venda.objects.create()
+                else:
+                    erro = "Codigo Vendedor Nao Existe"
+            else:
+                erro = "Codigo Cliente nao existe"    
+        else:
+            erro = "Codigo Venda ja utilizado"
+
+    return render(request,'cadastros/cadastro_venda.html',{
+        'cli':cli,
+        'ven':ven,
+        'clientes':clientes,
+        'vendedores':vendedores
+        })
