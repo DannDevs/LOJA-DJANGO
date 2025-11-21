@@ -7,7 +7,7 @@ from django.http import HttpResponse
 def home(request):
 
 
-    return render(request, "home.html")
+    return render(request, "views/home.html")
 
 # VALIDADORES
 
@@ -17,6 +17,8 @@ def validacodcliente(codigo):
     return cliente.objects.filter(codigo=codigo).exists()
 def validacodproduto(codigo):
     return produto.objects.filter(codigo=codigo).exists()
+def validaquantidade(quantidade):
+    return quantidade > -1
 
 # VENDEDORES
 
@@ -38,7 +40,7 @@ def editar_vendedor(request,id):
         else:
             erro = "Codigo Já Cadastrado"
              
-    return render(request,'editarvendedor.html',
+    return render(request,'edicao/editarvendedor.html',
     {'vend':vend,'erro':erro}
     )
 
@@ -46,7 +48,7 @@ def vendedorview(request):
     # ------ LISTAR ---------
     vendedores = vendedor.objects.all()
 
-    return render(request,'vendedores.html',{
+    return render(request,'modelos/vendedores.html',{
         'vendedores':vendedores})
 
 #  ------------ REMOVER ------------
@@ -74,14 +76,14 @@ def cadastro_vendedor(request):
 
             vendedor.objects.create(codigo=codigo,nome=nome)
             return redirect('vendedores')
-    return render(request,'cadastro_vendedor.html',
+    return render(request,'cadastros/cadastro_vendedor.html',
                   {"erro":erro})
 
 # CLIENTE VIEW
 
 def clienteview(request):
     clientes = cliente.objects.all()
-    return render(request,'clientes.html',{'clientes':clientes})
+    return render(request,'modelos/clientes.html',{'clientes':clientes})
 
 # ------ EDIÇAO CLIENTE -------
 
@@ -100,7 +102,7 @@ def editar_cliente(request,id):
         else:
             erro = "Erro ao cadastrar"
         
-    return render(request,'editarcliente.html',{'cli':cli,'erro':erro})
+    return render(request,'edicao/editarcliente.html',{'cli':cli,'erro':erro})
 
 # ---------- REMOVER CLIENTE ----
 
@@ -123,7 +125,7 @@ def cadastro_cliente(request):
             cliente.objects.create(codigo=codigo,nome=nome)
             return redirect('clientes')
     
-    return render(request,'cadastro_cliente.html',
+    return render(request,'cadastros/cadastro_cliente.html',
                   {"erro": erro }
                   )
 
@@ -132,13 +134,56 @@ def cadastro_cliente(request):
 def produtoview(request):
     produtos = produto.objects.all()
 
-    return render(request,'produtos.html',{'produtos':produtos})
+    return render(request,'modelos/produtos.html',{'produtos':produtos})
 
 def cadastro_produto(request):
+    erro = None
+
+    if request.method == 'POST':
+        codigo = request.POST.get("codigo")
+        if validacodproduto(codigo) == False:
+            descricao = request.POST.get("descricao")
+            preco = request.POST.get("preco")
+            quantidade = int(request.POST.get("quantidade"))
+            if validaquantidade(quantidade) == True:
+                produto.objects.create(codigo=codigo,descricao=descricao,preco=preco,quantidadeestoque=quantidade)
+                return redirect('produtos')
+            else:
+                erro = "Quantidade invalida"
+        else:
+            erro = "Codigo ja foi cadastrado"
+                
+      
+        
+    return render(request,'cadastros/cadastro_produto.html',{'erro':erro})
+
+# ----- EDITAR PRODUTO ------
+def editar_produto(request,id):
+    erro = None
+    prod = produto.objects.get(id=id)
+
     if request.method == 'POST':
         codigo = request.POST.get("codigo")
         descricao = request.POST.get("descricao")
-        
-    return render(request,'cadastro_produto.html')
+        preco = request.POST.get("preco")
+
+        if validacodproduto(codigo) == False and codigo != prod.codigo:
+            prod.codigo = codigo
+            prod.descricao = descricao
+            prod.preco = preco
+            prod.save()
+            return redirect('produtos')
+        else:
+            erro = "Codigo ja cadastrado!" 
     
+    return render(request,'edicao/editarproduto.html',{'prod':prod,'erro':erro})
+
+# ------- REMOVER PRODUTO -------
+
+def remover_produto(request,id):
+    produto.objects.get(id=id).delete()
+    return redirect('produtos')
+
+def vendaview(request):
+    return render(request,'modelos/vendas.html')
     

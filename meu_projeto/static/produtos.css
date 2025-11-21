@@ -5,17 +5,18 @@
     color: white;
     
 }
-a{
-  text-decoration: none;
+a {
+  font-weight: 500 !important;
+  color: #ffffff !important;
+  text-decoration: inherit !important;
 }
-
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
+  color: rgba(255, 255, 255, 0.87) !important; 
   background-color: #242424;
 
   font-synthesis: none;
@@ -25,7 +26,8 @@ a{
 }
 
 body{
-     background-color: #242424; 
+    color: rgba(255, 255, 255, 0.87) !important; 
+    background-color: #242424; 
 }
 
 .navint{
@@ -78,12 +80,14 @@ body{
     align-items: center;
     flex-direction: column;
     justify-content: space-evenly;
+    background-color: #242424;
 }
 .controlebuttons{
   width: 75%;
   display: flex;
   align-items: center;
   justify-content: end;
+  
  
 }
 .buttonsalign{
@@ -180,4 +184,41 @@ body{
 .checkbutton:focus,
 .checkbutton:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+.inputcadastro {
+    width: 100%;
+    max-width: 350px;
+    padding: 10px 14px;
+    background: #f9f9f9;
+    border: 2px solid #d3d3d3;
+    border-radius: 8px;
+    font-size: 16px;
+    color: #333;
+    outline: none;
+    transition: 0.2s ease;
+}
+.inputcadastrodisable{
+    width: 100%;
+    max-width: 350px;
+    padding: 10px 14px;
+    background: #8b8989;
+    border: 2px solid #8b8989;
+    border-radius: 8px;
+    font-size: 16px;
+    color: black;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+/* Quando o usuário clica no input */
+.inputcadastro:focus {
+    border-color: #007bff;
+    background: #ffffff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
+
+/* Placeholder mais suave */
+.inputcadastro::placeholder {
+    color: #888;
+    opacity: 0.8;
 }

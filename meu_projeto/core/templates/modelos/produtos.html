@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'produtos.css' %}">
+
+</head>
+<body>
+    {% include 'components/navbar.html'%}
+    <div class="divcentral">
+        <div class="controlebuttons">
+            <div class="buttonsalign">
+                <button class="buttonp"><a href="{% url 'cadastroproduto' %}">Novo</a></button>
+                <button class="buttonp"><a href="{% url 'produtos' %}">Reload</a></button>
+            </div>
+        </div>
+
+        <div class="grid">
+            <h2 class="boldtext">Lista Produtos</h2>
+        <table class="tabela-vendedores">
+            <thead>
+                <tr>
+                    <th class="colunmgrid" >Código</th>
+                    <th>Descrição</th>
+                    <th>Preço</th>
+                    <th>Quantidade</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+
+                <tbody>
+                    {% for p in produtos %}
+                    <tr>
+                        <td>{{ p.codigo }}</td>
+                        <td>{{ p.descricao }}</td>
+                        <td>{{ p.preco }}</td>
+                        <td>{{ p.quantidadeestoque }}</td>
+
+                        <td>
+                            <!-- Link de detalhes -->
+                            <a href="{% url 'editarproduto' p.id %}" class="btn-detalhe">Abrir</a>
+
+                            <!-- Link para  deletar -->
+                            <a href="{%url 'removerproduto' p.id%}"  class="btn-delete">Excluir</a>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
