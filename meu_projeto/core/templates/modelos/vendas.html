@@ -13,7 +13,7 @@
     <div class="divcentral">
             <div class="controlebuttons">
             <div class="buttonsalign">
-                <button class="buttonp"><a href="{% url 'cadastrovenda' %}">Novo</a></button>
+                <button class="buttonp"><a href="{% url 'gerarvenda' %}">Novo</a></button>
                 <button class="buttonp"><a href="{% url 'vendas' %}">Reload</a></button>
             </div>
         </div>
@@ -31,19 +31,23 @@
             </thead>
 
                 <tbody>
-                    {% for p in produtos %}
+                    {% for v in vendas %}
                     <tr>
-                        <td>{{ p.codigo }}</td>
-                        <td>{{ p.descricao }}</td>
-                        <td>R$ {{ p.preco }}</td>
-                        <td>UN {{ p.quantidadeestoque }}</td>
+                        <td>{{ v.codigo }}</td>
+                        <td>{{ v.cliente }}</td>
+                        <td>{{ v.vendedor }}</td>
+                        <td>R$ {{ v.valor }}</td>
 
                         <td>
+
+                            
                             <!-- Link de detalhes -->
-                            <a href="{% url 'editarproduto' p.id %}" class="btn-detalhe">Abrir</a>
+                            <a href="{% url 'cadastrovenda' v.id %}" class="btn-detalhe">Abrir</a>
+
+                            
 
                             <!-- Link para  deletar -->
-                            <a href="{%url 'removerproduto' p.id%}"  class="btn-delete">Excluir</a>
+                            <a href="{% url 'removervenda' v.id %}"  class="btn-delete">Excluir</a>
                         </td>
                         </tr>
                     {% endfor %}

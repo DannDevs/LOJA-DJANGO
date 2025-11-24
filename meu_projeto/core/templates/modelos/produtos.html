@@ -23,28 +23,32 @@
         <table class="tabela-vendedores">
             <thead>
                 <tr>
-                    <th class="colunmgrid" >Código</th>
-                    <th>Descrição</th>
-                    <th>Preço</th>
-                    <th>Quantidade</th>
-                    <th>Ações</th>
+                    <th class="colunmgrid text-center" >Código</th>
+                    <th class="text-center">Descrição</th>
+                    <th class="text-center">Preço</th>
+                    <th class="text-center">Quantidade</th>
+                    <th class="text-center">Ações</th>
                 </tr>
             </thead>
 
                 <tbody>
                     {% for p in produtos %}
                     <tr>
-                        <td>{{ p.codigo }}</td>
-                        <td>{{ p.descricao }}</td>
-                        <td>R$ {{ p.preco }}</td>
-                        <td>UN {{ p.quantidadeestoque }}</td>
+                        <td class="text-center">{{ p.codigo }}</td>
+                        <td class="text-center">{{ p.descricao }}</td>
+                        <td class="text-center">R$ {{ p.preco }}</td>
+                        <td class="text-center">UN {{ p.quantidadeestoque }}</td>
 
                         <td>
-                            <!-- Link de detalhes -->
-                            <a href="{% url 'editarproduto' p.id %}" class="btn-detalhe">Abrir</a>
+                            <div class="text-center">
+                                <a href="{% url 'ajustarestoque' p.id %}" class="btn-detalhe me-2">Ajuste</a>
+                            
+                                <!-- Link de detalhes -->
+                                <a href="{% url 'editarproduto' p.id %}" class="btn-detalhe">Abrir</a>
 
-                            <!-- Link para  deletar -->
-                            <a href="{%url 'removerproduto' p.id%}"  class="btn-delete">Excluir</a>
+                                <!-- Link para  deletar -->
+                                <a href="{%url 'removerproduto' p.id%}"  class="btn-delete">Excluir</a>
+                            </div>
                         </td>
                         </tr>
                     {% endfor %}

@@ -33,6 +33,10 @@ urlpatterns = [
     path('produtos/cadastro',views.cadastro_produto,name='cadastroproduto'),
     path('produtos/<int:id>/edit/',views.editar_produto,name='editarproduto'),
     path('produtos/<int:id>/excluir/',views.remover_produto,name='removerproduto'),
+    path('produtos/<int:id>/ajuste/',views.ajustar_estoque,name='ajustarestoque'),
     path('venda/',views.vendaview,name='vendas'),
-    path('venda/cadastro/',views.cadastro_venda,name='cadastrovenda'),
+    path('venda/gerarvenda/',views.gerar_venda,name='gerarvenda'),
+    path('venda/cadastro/<int:id>',views.cadastro_venda,name='cadastrovenda'),
+    path('venda/<int:id>/deletar/',views.remover_venda,name='removervenda')
+    # path('venda/additem/<int:vendaid>',views.add_item_venda,name='additemvenda'),
 ]
