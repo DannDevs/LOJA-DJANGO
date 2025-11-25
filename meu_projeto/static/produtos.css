@@ -221,3 +221,9 @@ body{
     color: #888;
     opacity: 0.8;
 }
+.retornarpag{
+  width: 87%;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
