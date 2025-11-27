@@ -35,7 +35,7 @@ class itemvenda(models.Model):
     quantidade = models.DecimalField(max_digits=10,decimal_places=2,default=0)
     preco_unitario = models.DecimalField(max_digits=10,decimal_places=2,default=0)
 
-    def __init__(self):
+    def __str__(self):
         return f"{self.produto}"
 
 class movimentoitem(models.Model):
