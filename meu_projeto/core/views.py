@@ -189,12 +189,13 @@ def ajustar_estoque(request,id):
     
     prod = produto.objects.get(id=id)
 
+
     estoque = request.POST.get("estoque")
 
     if validacodproduto(prod.codigo) == True:
         pass
 
-    return render(request,'edicao/editarestoque.html')
+    return render(request,'edicao/editarestoque.html',{'prod':prod})
 
 
 
@@ -225,10 +226,10 @@ def gerar_venda(request):
     )
 
     nova_venda = venda.objects.create(
-        codigo =0,
-        cliente=cliente_padrao,
-        vendedor=vendedor_padrao,
-        valor=0
+        codigo = 0,
+        cliente= cliente_padrao,
+        vendedor= vendedor_padrao,
+        valor= 0
         )
 
     return redirect('cadastrovenda',id=nova_venda.id)
@@ -275,7 +276,7 @@ def cadastro_venda(request,id):
         
         for valor in itensvenda:
             
-            valor_total += valor.preco_unitario
+            valor_total += valor.preco_unitario * valor.quantidade
 
         cli = get_object_or_404(cliente,id=cliente_id)
         ven = get_object_or_404(vendedor,id=vendedor_id)
@@ -319,15 +320,19 @@ def cadastro_venda(request,id):
             if validacodvenda(codigo) == False:
                 if validacodcliente(cli.codigo) == True:
                     if validacod(ven.codigo) == True: 
+                    
+                        itemvenda.objects.create(venda=venda_atual,produto=produtoadd,quantidade=quantidade,preco_unitario=preco_unitario)
+                        
+                        item = itemvenda.objects.get(venda=venda_atual)
 
                         ven_atual.codigo = codigo
                         ven_atual.cliente = cli
                         ven_atual.vendedor = ven
-                        ven_atual.valor = 0
+                        ven_atual.valor += item.preco_unitario * item.quantidade
                         ven_atual.save()
 
-                        itemvenda.objects.create(venda=venda_atual,produto=produtoadd,quantidade=quantidade,preco_unitario=preco_unitario)
                         return redirect('cadastrovenda', id=id)
+                        
                     else:
                         erro = "Codigo Vendedor Nao Existe"
                 else:
