@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import cliente,vendedor,produto,venda,itemvenda
+from .models import cliente,vendedor,produto,venda,movimentoitem
 from django.http import HttpResponse
 
 # HOME PAGE
@@ -151,6 +151,8 @@ def cadastro_produto(request):
             quantidade = int(request.POST.get("quantidade"))
             if validaquantidade(quantidade) == True:
                 produto.objects.create(codigo=codigo,descricao=descricao,preco=preco,quantidadeestoque=quantidade)
+                movimentoitem.objects.create()
+
                 return redirect('produtos')
             else:
                 erro = "Quantidade invalida"
@@ -171,7 +173,10 @@ def editar_produto(request,id):
         descricao = request.POST.get("descricao")
         preco = request.POST.get("preco")
 
-        if validacodproduto(codigo) == False and codigo != prod.codigo:
+        print(codigo)
+        print(prod.codigo)
+        print(validacodproduto(codigo))
+        if validacodproduto(codigo) == False or codigo == prod.codigo:
             prod.codigo = codigo
             prod.descricao = descricao
             prod.preco = preco

@@ -3,33 +3,45 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Produtos</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'produtos.css' %}">
-
 </head>
+
 <body>
-    {% include 'components/navbar.html'%}
+
+    {% include 'components/navbar.html' %}
+
     <div class="divcentral">
+
+        <!-- Botões do topo -->
         <div class="controlebuttons">
             <div class="buttonsalign">
-                <button class="buttonp"><a href="{% url 'cadastroproduto' %}">Novo</a></button>
-                <button class="buttonp"><a href="{% url 'produtos' %}">Reload</a></button>
+                <button class="buttonp">
+                    <a href="{% url 'cadastroproduto' %}">Novo</a>
+                </button>
+
+                <button class="buttonp">
+                    <a href="{% url 'produtos' %}">Reload</a>
+                </button>
             </div>
         </div>
 
+        <!-- Grid com tabela -->
         <div class="grid">
+
             <h2 class="boldtext">Lista Produtos</h2>
-        <table class="tabela-vendedores">
-            <thead>
-                <tr>
-                    <th class="colunmgrid text-center" >Código</th>
-                    <th class="text-center">Descrição</th>
-                    <th class="text-center">Preço</th>
-                    <th class="text-center">Quantidade</th>
-                    <th class="text-center">Ações</th>
-                </tr>
-            </thead>
+
+            <table class="tabela-vendedores">
+                <thead>
+                    <tr>
+                        <th class="colunmgrid text-center">Código</th>
+                        <th class="text-center">Descrição</th>
+                        <th class="text-center">Preço</th>
+                        <th class="text-center">Quantidade</th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
 
                 <tbody>
                     {% for p in produtos %}
@@ -39,22 +51,33 @@
                         <td class="text-center">R$ {{ p.preco }}</td>
                         <td class="text-center">UN {{ p.quantidadeestoque }}</td>
 
-                        <td>
-                            <div class="text-center">
-                                <a href="{% url 'ajustarestoque' p.id %}" class="btn-detalhe me-2">Ajuste</a>
-                            
-                                <!-- Link de detalhes -->
-                                <a href="{% url 'editarproduto' p.id %}" class="btn-detalhe">Abrir</a>
+                        <td class="text-center">
 
-                                <!-- Link para  deletar -->
-                                <a href="{%url 'removerproduto' p.id%}"  class="btn-delete">Excluir</a>
-                            </div>
+                            <!-- Ajuste estoque -->
+                            <a href="{% url 'ajustarestoque' p.id %}" class="btn-detalhe me-2">
+                                Ajuste
+                            </a>
+
+                            <!-- Editar -->
+                            <a href="{% url 'editarproduto' p.id %}" class="btn-detalhe me-2">
+                                Abrir
+                            </a>
+
+                            <!-- Deletar -->
+                            <a href="{% url 'removerproduto' p.id %}" class="btn-delete">
+                                Excluir
+                            </a>
+
                         </td>
-                        </tr>
+                    </tr>
                     {% endfor %}
                 </tbody>
+
             </table>
+
         </div>
+
     </div>
+
 </body>
 </html>
