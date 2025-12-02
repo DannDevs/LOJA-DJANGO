@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import cliente,vendedor,produto,venda,itemvenda
+from .models import cliente,vendedor,produto,venda,movimentoitem
 from django.http import HttpResponse
 
 # HOME PAGE
@@ -151,6 +151,8 @@ def cadastro_produto(request):
             quantidade = int(request.POST.get("quantidade"))
             if validaquantidade(quantidade) == True:
                 produto.objects.create(codigo=codigo,descricao=descricao,preco=preco,quantidadeestoque=quantidade)
+                movimentoitem.objects.create()
+
                 return redirect('produtos')
             else:
                 erro = "Quantidade invalida"
@@ -171,7 +173,10 @@ def editar_produto(request,id):
         descricao = request.POST.get("descricao")
         preco = request.POST.get("preco")
 
-        if validacodproduto(codigo) == False and codigo != prod.codigo:
+        print(codigo)
+        print(prod.codigo)
+        print(validacodproduto(codigo))
+        if validacodproduto(codigo) == False or codigo == prod.codigo:
             prod.codigo = codigo
             prod.descricao = descricao
             prod.preco = preco
@@ -189,12 +194,13 @@ def ajustar_estoque(request,id):
     
     prod = produto.objects.get(id=id)
 
+
     estoque = request.POST.get("estoque")
 
     if validacodproduto(prod.codigo) == True:
         pass
 
-    return render(request,'edicao/editarestoque.html')
+    return render(request,'edicao/editarestoque.html',{'prod':prod})
 
 
 
@@ -225,10 +231,10 @@ def gerar_venda(request):
     )
 
     nova_venda = venda.objects.create(
-        codigo =0,
-        cliente=cliente_padrao,
-        vendedor=vendedor_padrao,
-        valor=0
+        codigo = 0,
+        cliente= cliente_padrao,
+        vendedor= vendedor_padrao,
+        valor= 0
         )
 
     return redirect('cadastrovenda',id=nova_venda.id)
@@ -275,7 +281,7 @@ def cadastro_venda(request,id):
         
         for valor in itensvenda:
             
-            valor_total += valor.preco_unitario
+            valor_total += valor.preco_unitario * valor.quantidade
 
         cli = get_object_or_404(cliente,id=cliente_id)
         ven = get_object_or_404(vendedor,id=vendedor_id)
@@ -319,15 +325,19 @@ def cadastro_venda(request,id):
             if validacodvenda(codigo) == False:
                 if validacodcliente(cli.codigo) == True:
                     if validacod(ven.codigo) == True: 
+                    
+                        itemvenda.objects.create(venda=venda_atual,produto=produtoadd,quantidade=quantidade,preco_unitario=preco_unitario)
+                        
+                        item = itemvenda.objects.get(venda=venda_atual)
 
                         ven_atual.codigo = codigo
                         ven_atual.cliente = cli
                         ven_atual.vendedor = ven
-                        ven_atual.valor = 0
+                        ven_atual.valor += item.preco_unitario * item.quantidade
                         ven_atual.save()
 
-                        itemvenda.objects.create(venda=venda_atual,produto=produtoadd,quantidade=quantidade,preco_unitario=preco_unitario)
                         return redirect('cadastrovenda', id=id)
+                        
                     else:
                         erro = "Codigo Vendedor Nao Existe"
                 else:

@@ -3,52 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro</title>
+    <title>Cadastro de Vendedores</title>
+
     {% load static %}
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'home.css' %}">
 </head>
+
 <body>
-    {% include 'components/navbar.html'%}
+
+    {% include 'components/navbar.html' %}
+
     <div class="divcentral">
+
+        <!-- Botões Superiores -->
         <div class="controlebuttons">
             <div class="buttonsalign">
-            <button class="buttonp"><a href="{% url 'cadastrovendedor' %}">Novo</a></button>
-            <button class="buttonp"><a href="{% url 'vendedores' %}">Reload</a></button>
+                <button class="buttonp">
+                    <a href="{% url 'cadastrovendedor' %}">Novo</a>
+                </button>
+
+                <button class="buttonp">
+                    <a href="{% url 'vendedores' %}">Reload</a>
+                </button>
+            </div>
         </div>
-    </div>
+
+        <!-- Grid Principal -->
         <div class="grid">
-            <h2>Lista Vendedores</h2>
-          <table class="tabela-vendedores">
-            <thead>
-                <tr>
-                    <th class="colunmgrid" >ID</th>
-                    <th>Código</th>
-                    <th>Nome</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
 
-            <tbody>
-                {% for v in vendedores %}
-                <tr>
-                    <td>{{ v.id }}</td>
-                    <td>{{ v.codigo }}</td>
-                    <td>{{ v.nome }}</td>
+            <h2 class="boldtext">Lista Vendedores</h2>
 
-                    <td>
-                        <!-- Link de detalhes -->
-                        <a href="{% url 'editarvendedor' v.id  %}" class="btn-detalhe">Abrir</a>
+            <table class="tabela-vendedores table-hover ">
 
-                        <!-- Link para deletar -->
-                        <a href="{% url 'removervendedor' v.id %}" class="btn-delete">Excluir</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+                <thead>
+                    <tr>
+                        <th class="colunmgrid">ID</th>
+                        <th>Código</th>
+                        <th>Nome</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for v in vendedores %}
+                    <tr>
+                        <td>{{ v.id }}</td>
+                        <td>{{ v.codigo }}</td>
+                        <td>{{ v.nome }}</td>
+
+                        <td class="text-center">
+
+                            <!-- Abrir -->
+                            <a href="{% url 'editarvendedor' v.id %}" class="btn-detalhe me-2">
+                                Abrir
+                            </a>
+
+                            <!-- Excluir -->
+                            <a href="{% url 'removervendedor' v.id %}" class="btn-delete">
+                                Excluir
+                            </a>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
 
         </div>
+
     </div>
+
 </body>
 </html>
