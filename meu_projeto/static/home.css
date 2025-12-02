@@ -27,8 +27,8 @@ a {
 }
 
 body{
-      color: rgba(255, 255, 255, 0.87) !important; 
-     background-color: #242424; 
+    color: rgba(255, 255, 255, 0.87) !important; 
+     background-color: #242424 !important  ; 
 }
 
 .navint{
