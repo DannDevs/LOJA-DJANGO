@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import cliente,vendedor,produto,venda,movimentoitem
+from .models import cliente,vendedor,produto,venda,movimentoitem,itemvenda
 from django.http import HttpResponse
 
 # HOME PAGE
@@ -151,7 +151,7 @@ def cadastro_produto(request):
             quantidade = int(request.POST.get("quantidade"))
             if validaquantidade(quantidade) == True:
                 produto.objects.create(codigo=codigo,descricao=descricao,preco=preco,quantidadeestoque=quantidade)
-                movimentoitem.objects.create()
+              
 
                 return redirect('produtos')
             else:
@@ -191,17 +191,32 @@ def editar_produto(request,id):
 # --------- AJUSTAR ESTOQUE
 
 def ajustar_estoque(request,id):
-    
+    erro  = None    
+    quantidademov = 0
+    preco_unitario = 0
     prod = produto.objects.get(id=id)
+    
+    preco = request.POST.get("precoalt")
+    quantidadeestoque = request.POST.get("estoquealt")
+
+    if quantidadeestoque is not None:
+        quantidademov = int(quantidadeestoque)
+    if preco is not None:
+        preco_unitario = int(preco)
 
 
-    estoque = request.POST.get("estoque")
+    if request.method == 'POST':
+        if validacodproduto(prod.codigo) == True:
+            if quantidademov >= 0:
+                prod.preco_unitario = preco
+                prod.quantidade = quantidademov
+                prod.save()
+            else:
+                erro = "Quantidade Invalida" 
+        else:
+            erro =  "Produto nao foi cadastrado"
 
-    if validacodproduto(prod.codigo) == True:
-        pass
-
-    return render(request,'edicao/editarestoque.html',{'prod':prod})
-
+    return render(request,'edicao/editarestoque.html',{'prod':prod,'erro':erro})
 
 
 # ------- REMOVER PRODUTO -------
@@ -360,7 +375,7 @@ def cadastro_venda(request,id):
         })
 
 def remover_venda(request,id):
-    venda.objects.get(id=id).delete( )
+    venda.objects.get(id=id).delete()
     return redirect('vendas')
 
 
