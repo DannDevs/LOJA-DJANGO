@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import cliente,vendedor,produto,venda,movimentoitem,itemvenda
+from .models import Cliente,Vendedor,Produto,Venda,MovimentoItem,ItemVenda,Duplicata
 from django.http import HttpResponse
 
 # HOME PAGE
@@ -12,30 +12,30 @@ def home(request):
 # VALIDADORES
 
 def validacod(codigo):
-    return vendedor.objects.filter(codigo=codigo).exists() 
+    return Vendedor.objects.filter(codigo=codigo).exists() 
 def validacodcliente(codigo):
-    return cliente.objects.filter(codigo=codigo).exists() 
+    return Cliente.objects.filter(codigo=codigo).exists() 
 def validacodproduto(codigo): 
-    return produto.objects.filter(codigo=codigo).exists()
+    return Produto.objects.filter(codigo=codigo).exists()
 def validaquantidade(quantidade):
     return quantidade > -1
 def validacodvenda(codigo):
-    return venda.objects.filter(codigo=codigo).exists()
+    return Venda.objects.filter(codigo=codigo).exists()
 def produtoexiste(id):
-    return produto.objects.filter(id=id).exists()
+    return Produto.objects.filter(id=id).exists()
 
 # VENDEDORES
 
 def editar_vendedor(request,id):
     erro = None
 
-    vend = get_object_or_404(vendedor,id=id)
+    vend = get_object_or_404(Vendedor,id=id)
 
     if request.method == 'POST':    
         codigo = int(request.POST.get('codigo'))
         nome = request.POST.get('nome')
 
-        if validacod(codigo) == False and vend.codigo != codigo:  
+        if validacod(codigo) == True and vend.codigo == codigo:  
             vend.codigo = codigo
             vend.nome = nome
             vend.save()
@@ -50,7 +50,7 @@ def editar_vendedor(request,id):
 
 def vendedorview(request):
     # ------ LISTAR ---------
-    vendedores = vendedor.objects.all()
+    vendedores = Vendedor.objects.all()
 
     return render(request,'modelos/vendedores.html',{
         'vendedores':vendedores})
@@ -59,7 +59,7 @@ def vendedorview(request):
 
 def vendedorremover(request,id):
 
-    vendedor.objects.filter(id=id).delete()
+    Vendedor.objects.filter(id=id).delete()
     return redirect('vendedores')
     
 
@@ -78,7 +78,7 @@ def cadastro_vendedor(request):
         
         else:
 
-            vendedor.objects.create(codigo=codigo,nome=nome)
+            Vendedor.objects.create(codigo=codigo,nome=nome)
             return redirect('vendedores')
     return render(request,'cadastros/cadastro_vendedor.html',
                   {"erro":erro})
@@ -86,19 +86,19 @@ def cadastro_vendedor(request):
 # CLIENTE VIEW
 
 def clienteview(request):
-    clientes = cliente.objects.all()
+    clientes = Cliente.objects.all()
     return render(request,'modelos/clientes.html',{'clientes':clientes})
 
 # ------ EDIÇAO CLIENTE -------
 
 def editar_cliente(request,id):
     erro = None
-    cli = get_object_or_404(cliente,id=id)
+    cli = get_object_or_404(Cliente,id=id)
 
     if request.method == "POST":
         codigo = int(request.POST.get('codigo'))
         nome = request.POST.get('nome')
-        if validacod(codigo) == False and codigo != cli.codigo:
+        if validacod(codigo) == True and codigo == cli.codigo:
             cli.codigo = codigo
             cli.nome = nome
             cli.save()
@@ -111,7 +111,7 @@ def editar_cliente(request,id):
 # ---------- REMOVER CLIENTE ----
 
 def remover_cliente(request,id):
-    cliente.objects.filter(id=id).delete()
+    Cliente.objects.filter(id=id).delete()
     return redirect('clientes')
 
 # ------ CADASTRO CLIENTE ----
@@ -126,7 +126,7 @@ def cadastro_cliente(request):
         if validacodcliente(codigo) ==  True:
             erro = "Cliente ja cadastrado"
         else:
-            cliente.objects.create(codigo=codigo,nome=nome)
+            Cliente.objects.create(codigo=codigo,nome=nome)
             return redirect('clientes')
     
     return render(request,'cadastros/cadastro_cliente.html',
@@ -136,7 +136,7 @@ def cadastro_cliente(request):
 # ------ PRODUTOS ------
 
 def produtoview(request):
-    produtos = produto.objects.all()
+    produtos = Produto.objects.all()
 
     return render(request,'modelos/produtos.html',{'produtos':produtos})
 
@@ -150,7 +150,7 @@ def cadastro_produto(request):
             preco = request.POST.get("preco")
             quantidade = int(request.POST.get("quantidade"))
             if validaquantidade(quantidade) == True:
-                produto.objects.create(codigo=codigo,descricao=descricao,preco=preco,quantidadeestoque=quantidade)
+                Produto.objects.create(codigo=codigo,descricao=descricao,preco=preco,quantidadeestoque=quantidade)
               
 
                 return redirect('produtos')
@@ -166,7 +166,7 @@ def cadastro_produto(request):
 # ----- EDITAR PRODUTO ------
 def editar_produto(request,id):
     erro = None
-    prod = produto.objects.get(id=id)
+    prod = Produto.objects.get(id=id)
 
     if request.method == 'POST':
         codigo = int(request.POST.get("codigo"))
@@ -194,7 +194,7 @@ def ajustar_estoque(request,id):
     erro  = None    
     quantidademov = 0
     preco_unitario = 0
-    prod = produto.objects.get(id=id)
+    prod = Produto.objects.get(id=id)
     
     preco = request.POST.get("precoalt")
     quantidadeestoque = request.POST.get("estoquealt")
@@ -222,30 +222,30 @@ def ajustar_estoque(request,id):
 # ------- REMOVER PRODUTO -------
 
 def remover_produto(request,id):
-    produto.objects.get(id=id).delete()
+    Produto.objects.get(id=id).delete()
     return redirect('produtos')
 
 # ------- VENDAS VIEW -------
 
 def vendaview(request):
 
-    vendas = venda.objects.all()
+    vendas = Venda.objects.all()
 
     return render(request,'modelos/vendas.html',{'vendas':vendas})
 
 def gerar_venda(request):
 
-    cliente_padrao, _ = cliente.objects.get_or_create(
+    cliente_padrao, _ = Cliente.objects.get_or_create(
         id = 0,
         defaults={'codigo':0,'nome':"CLIENTE PADRÃO"}
     )
 
-    vendedor_padrao, _ = vendedor.objects.get_or_create(
+    vendedor_padrao, _ = Vendedor.objects.get_or_create(
         id = 0,
         defaults={'codigo':0,'nome':"VENDEDOR PADRÃO"}
     )
 
-    nova_venda = venda.objects.create(
+    nova_venda = Venda.objects.create(
         codigo = 0,
         cliente= cliente_padrao,
         vendedor= vendedor_padrao,
@@ -256,11 +256,11 @@ def gerar_venda(request):
     
 def cadastro_venda(request,id):
 
-    ven_atual = get_object_or_404(venda,id=id)
+    ven_atual = get_object_or_404(Venda,id=id)
 
-    clientes = cliente.objects.all()
-    vendedores = vendedor.objects.all()
-    produtos = produto.objects.all()
+    clientes = Cliente.objects.all()
+    vendedores = Vendedor.objects.all()
+    produtos = Produto.objects.all()
 
     valor_total = 0
     erro = None
@@ -272,11 +272,11 @@ def cadastro_venda(request,id):
         preco_unitario = request.POST.get("preco_unitario")
         quantidade = request.POST.get('quantidade')
 
-        prod = produto.objects.get(id=produto_id)
+        prod = Produto.objects.get(id=produto_id)
 
         if produtoexiste(prod.id) == True:
             print(request.POST)
-            itemvenda.objects.create(
+            ItemVenda.objects.create(
                 venda=ven_atual,
                 produto=prod,
                 quantidade=quantidade,
@@ -291,15 +291,15 @@ def cadastro_venda(request,id):
         cliente_id = ven_atual.cliente.id
         vendedor_id = ven_atual.vendedor.id
 
-        itensvenda = itemvenda.objects.filter(venda = ven_atual)
+        itensvenda = ItemVenda.objects.filter(venda = ven_atual)
 
         
         for valor in itensvenda:
             
             valor_total += valor.preco_unitario * valor.quantidade
 
-        cli = get_object_or_404(cliente,id=cliente_id)
-        ven = get_object_or_404(vendedor,id=vendedor_id)
+        cli = get_object_or_404(Cliente,id=cliente_id)
+        ven = get_object_or_404(Vendedor,id=vendedor_id)
         if validacodvenda(codigo) == True:
             if validacodcliente(cli.codigo) == True:
                 if validacod(ven.codigo) == True:
@@ -321,29 +321,29 @@ def cadastro_venda(request,id):
         
         erroitem = None
 
-        venda_atual = get_object_or_404(venda,id=id)
+        venda_atual = get_object_or_404(Venda,id=id)
     
         codigo = int(request.POST.get('codigo'))
         cliente_id = request.POST.get('cliente')
         vendedor_id = request.POST.get('vendedor')
 
         produto_id = request.POST.get('produto')
-        produtoadd = produto.objects.get(id=produto_id)
+        produtoadd = Produto.objects.get(id=produto_id)
 
         quantidade = request.POST.get('quantidade')
         preco_unitario = request.POST.get('preco_unitario')
 
-        cli = get_object_or_404(cliente,id=cliente_id)
-        ven = get_object_or_404(vendedor,id=vendedor_id)
+        cli = get_object_or_404(Cliente,id=cliente_id)
+        ven = get_object_or_404(Vendedor,id=vendedor_id)
 
         if produtoexiste(produto_id) == True:
             if validacodvenda(codigo) == False:
                 if validacodcliente(cli.codigo) == True:
                     if validacod(ven.codigo) == True: 
                     
-                        itemvenda.objects.create(venda=venda_atual,produto=produtoadd,quantidade=quantidade,preco_unitario=preco_unitario)
+                        ItemVenda.objects.create(venda=venda_atual,produto=produtoadd,quantidade=quantidade,preco_unitario=preco_unitario)
                         
-                        item = itemvenda.objects.get(venda=venda_atual)
+                        item = ItemVenda.objects.get(venda=venda_atual)
 
                         ven_atual.codigo = codigo
                         ven_atual.cliente = cli
@@ -371,11 +371,11 @@ def cadastro_venda(request,id):
         'produtos':produtos,
         'erro':erro,
         'ven_atual':ven_atual,
-        'itensvenda':itemvenda.objects.filter(venda = ven_atual)
+        'itensvenda':ItemVenda.objects.filter(venda = ven_atual)
         })
 
 def remover_venda(request,id):
-    venda.objects.get(id=id).delete()
+    Venda.objects.get(id=id).delete()
     return redirect('vendas')
 
 

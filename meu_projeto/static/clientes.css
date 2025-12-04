@@ -178,12 +178,6 @@ a {
     border-bottom: 1px solid #3a3a3a;
     color: #eaeaea;
 }
-
-/* Divisões verticais */
-.tabela-vendedores th:not(:last-child),
-.tabela-vendedores td:not(:last-child) {
-    border-right: 1px solid #333;
-}
 /* ======================== BOTÕES DA TABELA ======================== */
 .btn-detalhe,
 .btn-delete {

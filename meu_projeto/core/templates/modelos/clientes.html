@@ -35,19 +35,19 @@
             <table class="tabela-vendedores">
                 <thead>
                     <tr>
-                        <th class="colunmgrid">ID</th>
-                        <th>Código</th>
-                        <th>Nome</th>
-                        <th>Ações</th>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Código</th>
+                        <th class="text-center">Nome</th>
+                        <th class="text-center">Ações</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     {% for c in clientes %}
                     <tr>
-                        <td>{{ c.id }}</td>
-                        <td>{{ c.codigo }}</td>
-                        <td>{{ c.nome }}</td>
+                        <td class="text-center">{{ c.id }}</td>
+                        <td class="text-center">{{ c.codigo }}</td>
+                        <td class="text-center">{{ c.nome }}</td>
 
                         <td class=" text-center acoes">
 

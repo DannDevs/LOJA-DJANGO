@@ -159,12 +159,6 @@ body {
     color: #eaeaea;
 }
 
-/* Divisões verticais */
-.tabela-vendedores th:not(:last-child),
-.tabela-vendedores td:not(:last-child) {
-    border-right: 1px solid #333;
-}
-
 /* =============================== */
 /*           BOTÕES CRUD           */
 /* =============================== */

@@ -38,11 +38,11 @@
             <table class="tabela-vendedores">
                 <thead>
                     <tr>
-                        <th class="colunmgrid">Código</th>
-                        <th>Cliente</th>
-                        <th>Vendedor</th>
-                        <th>Valor</th>
-                        <th>Ações</th>
+                        <th class="text-center">Código</th>
+                        <th class="text-center">Cliente</th>
+                        <th class="text-center">Vendedor</th>
+                        <th class="text-center">Valor</th>
+                        <th class="text-center">Ações</th>
                     </tr>
                 </thead>
 
@@ -50,10 +50,10 @@
 
                     {% for v in vendas %}
                     <tr>
-                        <td class="align-center">{{ v.codigo }}</td>
-                        <td class="align-center">{{ v.cliente }}</td>
-                        <td class="align-center">{{ v.vendedor }}</td>
-                        <td class="align-center">R$ {{ v.valor }}</td>
+                        <td class="text-center">{{ v.codigo }}</td>
+                        <td class="text-center">{{ v.cliente }}</td>
+                        <td class="text-center">{{ v.vendedor }}</td>
+                        <td class="text-center">R$ {{ v.valor }}</td>
 
                         <td class="text-center">
 
