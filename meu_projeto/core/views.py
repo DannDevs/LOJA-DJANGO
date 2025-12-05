@@ -205,12 +205,19 @@ def ajustar_estoque(request,id):
         preco_unitario = int(preco)
 
 
+
     if request.method == 'POST':
         if validacodproduto(prod.codigo) == True:
             if quantidademov >= 0:
-                prod.preco_unitario = preco
-                prod.quantidade = quantidademov
+                
+                prod.preco_unitario = preco_unitario
+                prod.quantidadeestoque += quantidademov
                 prod.save()
+
+                MovimentoItem.objects.create(tipomovimento='+',produto=prod,)
+                
+                print(prod.quantidadeestoque)
+                print(Produto.objects.filter(id=id))
             else:
                 erro = "Quantidade Invalida" 
         else:

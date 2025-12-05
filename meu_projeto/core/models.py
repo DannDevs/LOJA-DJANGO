@@ -40,10 +40,16 @@ class ItemVenda(models.Model):
         return f"{self.produto}"
 
 class MovimentoItem(models.Model):
-    codigo = models.IntegerField()
-    tipomovimento = models.CharField() 
+
+    MOVIMENTO_CHOICES = [
+        ('+','ENTRADA'),
+        ('-','SAIDA'),
+    ]
+
+    tipomovimento = models.CharField(max_length=1,choices=MOVIMENTO_CHOICES) 
     produto = models.ForeignKey(Produto,on_delete=models.CASCADE)
     qtdmovimento = models.DecimalField(max_digits=8,decimal_places=2,default=0)
+    preco = models.DecimalField(max_digits=8,decimal_places=2,default=0)
 
 class Duplicata(models.Model):
     codigo = models.IntegerField()
