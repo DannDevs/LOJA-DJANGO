@@ -378,6 +378,12 @@ def remover_venda(request,id):
     Venda.objects.get(id=id).delete()
     return redirect('vendas')
 
+# ------- DUPLICATAS -----
+def duplicataview(request):
+
+    
+
+    return render(request,'modelos/duplicata.html')
 
 
 

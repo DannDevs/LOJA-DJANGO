@@ -46,10 +46,26 @@ class MovimentoItem(models.Model):
     qtdmovimento = models.DecimalField(max_digits=8,decimal_places=2,default=0)
 
 class Duplicata(models.Model):
+
+    TIPO_CHOICES = [
+        ('P','PAGAR'),
+        ('R','RECEBER'),
+    ]
+
+    PAGO_CHOICES = [
+        ('P','PAGO'),
+        ('E','EM ABERTO'),
+        ('A','ATRASADO'),
+    ]   
+
     codigo = models.IntegerField()
     cliente = models.ForeignKey(Cliente,on_delete=models.CASCADE)
     venda = models.ForeignKey(Venda,on_delete=models.CASCADE)
     valor = models.DecimalField(decimal_places=2,max_digits=8)
+    tipo = models.CharField(max_length=1,choices=TIPO_CHOICES)
+    pago = models.CharField(max_length=1,choices=PAGO_CHOICES)
+
+
 
 
 

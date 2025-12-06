@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'duplicata.css' %}">
+
+</head>
+<body>
+    {% include 'components/navbar.html'%}
+      <div class="divcentral">
+
+        <!-- Botões do topo -->
+        <div class="controlebuttons">
+            <div class="buttonsalign">
+                <button class="buttonp">
+                    <a href="/">Novo</a>
+                </button>
+
+                <button class="buttonp">
+                    <a href="{% url 'duplicatas' %}">Reload</a>
+                </button>
+            </div>
+        </div>
+
+        <!-- Grid com tabela -->
+        <div class="grid">
+
+            <h2 class="boldtext">Duplicatas</h2>
+
+            <table class="tabela-vendedores">
+                <thead>
+                    <tr>
+                        <th class="colunmgrid text-center">Código </th>
+                        <th class="text-center">Venda </th>
+                        <th class="text-center">Valor </th>
+                        <th class="text-center">Tipo </th>
+                        <th class="text-center">Ações</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for p in produtos %}
+                    
+                    <tr>
+                    
+                        <td class="text-center">{{ p.codigo }}</td>
+                        <td class="text-center">{{ p.descricao }}</td>
+                        <td class="text-center">R$ {{ p.preco }}</td>
+                        <td class="text-center">UN {{ p.quantidadeestoque }}</td>
+
+                        <td class="text-center">
+                            
+                            <!-- Editar -->
+                            
+                            <a href="{% url 'editarproduto' p.id %}" class="btn-detalhe me-2">
+                                Abrir
+                            </a>
+
+                            <!-- Deletar -->
+                            
+                            <a href="{% url 'removerproduto' p.id %}" class="btn-delete">
+                                Excluir
+                            </a>
+
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    
+</body>
+</html>
