@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'produtos.css' %}">
+</head>
+
+<body>
+
+    {% include 'components/navbar.html' %}
+
+    <div class="divcentral">
+
+        <!-- Botões do topo -->
+        <div class="controlebuttons">
+            <div class="buttonsalign">
+                <button class="buttonp">
+                    <a href="{% url 'estoque' %}">Reload</a>
+                </button>
+            </div>
+        </div>
+
+        <!-- Grid com tabela -->
+        <div class="grid">
+
+            <h2 class="fw-bold">Lista Estoque</h2>
+
+            <table class="tabela-vendedores">
+                <thead>
+                     <tr>
+                        <th class="text-center">Codigo</th>
+                        <th class="text-center">Descrição</th>
+                        <th class="text-center">Preço</th>
+                        <th class="text-center">Quantidade</th>
+                        <th class="text-center">Tp. Mov</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for e in estoque %}
+                    <tr>
+                        <td class="text-center">{{ e.id }}</td>
+                        <td class="text-center">{{ e.produto.descricao }}</td>
+                        <td class="text-center">{{ e.preco }}</td>
+                        <td class="text-center">{{ e.qtdmovimento }}</td>
+                        <td class="text-center"> {{ e.tipomovimento }} </td>
+
+                    {% empty %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

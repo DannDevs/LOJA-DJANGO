@@ -39,5 +39,7 @@ urlpatterns = [
     path('venda/cadastro/<int:id>',views.cadastro_venda,name='cadastrovenda'),
     path('venda/<int:id>/deletar/',views.remover_venda,name='removervenda'),
     # path('venda/additem/<int:vendaid>',views.add_item_venda,name='additemvenda'),
-    path('duplicatas/',views.duplicataview,name='duplicatas')
+    path('duplicatas/',views.duplicataview,name='duplicatas'),
+    path('duplicatas/<int:id>/excluir',views.excluir_duplicata,name='removerduplicata'),
+    path('estoque/',views.estoqueview,name='estoque')
 ]

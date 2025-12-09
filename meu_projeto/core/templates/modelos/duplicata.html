@@ -35,33 +35,37 @@
                     <tr>
                         <th class="colunmgrid text-center">Código </th>
                         <th class="text-center">Venda </th>
+                        <th class="text-center">Cliente</th>
                         <th class="text-center">Valor </th>
                         <th class="text-center">Tipo </th>
+                        <th class="text-center" >Pago</th>
                         <th class="text-center">Ações</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {% for p in produtos %}
+                    {% for d in duplicatas %}
                     
                     <tr>
                     
-                        <td class="text-center">{{ p.codigo }}</td>
-                        <td class="text-center">{{ p.descricao }}</td>
-                        <td class="text-center">R$ {{ p.preco }}</td>
-                        <td class="text-center">UN {{ p.quantidadeestoque }}</td>
+                        <td class="text-center">{{ d.id }}</td>
+                        <td class="text-center">{{ d.venda }}</td>
+                        <td class="text-center">{{ d.cliente }}</td>
+                        <td class="text-center" >R$ {{d.valor}}</td>
+                        <td class="text-center">{{ d.tipo }}</td>
+                        <td class="text-center">{{ d.pago }}</td>
 
                         <td class="text-center">
                             
                             <!-- Editar -->
                             
-                            <a href="{% url 'editarproduto' p.id %}" class="btn-detalhe me-2">
+                            <a href="/" class="btn-detalhe me-2">
                                 Abrir
                             </a>
 
                             <!-- Deletar -->
                             
-                            <a href="{% url 'removerproduto' p.id %}" class="btn-delete">
+                            <a href="{% url 'removerduplicata' d.id %}" class="btn-delete">
                                 Excluir
                             </a>
 

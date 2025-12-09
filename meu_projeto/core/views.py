@@ -1,18 +1,33 @@
 from django.shortcuts import render,redirect,get_object_or_404
 from .models import Cliente,Vendedor,Produto,Venda,MovimentoItem,ItemVenda,Duplicata
 from django.http import HttpResponse
+from django.db.models import Sum,Value,DecimalField
+from django.db.models.functions import Coalesce
 
 # HOME PAGE
 
 def home(request):
 
+    numeroclientes = Cliente.objects.count()
 
-    return render(request, "views/home.html")
+    receita = Duplicata.objects.aggregate(receita=Coalesce(
+        Sum('valor'), 
+        Value(0),
+        output_field=DecimalField())
+        )['receita']
+    quantidadevenda = Venda.objects.count()
+
+
+    return render(request, "views/home.html",{
+        'numeroclientes':numeroclientes,
+        'receita':receita,
+        'quantidadevenda':quantidadevenda
+        })
 
 # VALIDADORES
 
 def validacod(codigo):
-    return Vendedor.objects.filter(codigo=codigo).exists() 
+    return Vendedor.objects.filter(codigo=codigo).exists()
 def validacodcliente(codigo):
     return Cliente.objects.filter(codigo=codigo).exists() 
 def validacodproduto(codigo): 
@@ -23,6 +38,10 @@ def validacodvenda(codigo):
     return Venda.objects.filter(codigo=codigo).exists()
 def produtoexiste(id):
     return Produto.objects.filter(id=id).exists()
+def temduplicata(id):
+    return Duplicata.objects.filter(venda_id=id).exists()
+def validacodigo(codigo):
+    return codigo >= 1
 
 # VENDEDORES
 
@@ -73,13 +92,11 @@ def cadastro_vendedor(request):
         if not codigo or not nome:
             erro = "Preencha Corretamente os campos"
         
-        if validacod(codigo) == True:
-            erro = "Codigo ja cadastrado"
-        
-        else:
-
+        if validacod(codigo) == False and validacodigo(codigo) == True:
             Vendedor.objects.create(codigo=codigo,nome=nome)
             return redirect('vendedores')
+        else:
+            erro = "Codigo ja cadastrado ou Invalido"
     return render(request,'cadastros/cadastro_vendedor.html',
                   {"erro":erro})
 
@@ -194,36 +211,60 @@ def ajustar_estoque(request,id):
     erro  = None    
     quantidademov = 0
     preco_unitario = 0
-    prod = Produto.objects.get(id=id)
     
+    prod = Produto.objects.get(id=id)
     preco = request.POST.get("precoalt")
     quantidadeestoque = request.POST.get("estoquealt")
+    tipomov = request.POST.get("tipomov")
 
+    
     if quantidadeestoque is not None:
         quantidademov = int(quantidadeestoque)
     if preco is not None:
         preco_unitario = int(preco)
 
-
-
     if request.method == 'POST':
         if validacodproduto(prod.codigo) == True:
-            if quantidademov >= 0:
-                
-                prod.preco_unitario = preco_unitario
-                prod.quantidadeestoque += quantidademov
-                prod.save()
+            print(tipomov)
+            if tipomov == '1':
+                if quantidademov >= 0:
 
-                MovimentoItem.objects.create(tipomovimento='+',produto=prod,)
-                
-                print(prod.quantidadeestoque)
-                print(Produto.objects.filter(id=id))
-            else:
-                erro = "Quantidade Invalida" 
+                    preco_unitario = 0
+                    prod.quantidadeestoque += quantidademov
+                    prod.save()
+
+                    MovimentoItem.objects.create(tipomovimento='+',produto=prod,qtdmovimento=quantidademov,preco=preco_unitario)
+                    erro = " "
+
+            if tipomov == '2':
+                print('EROOOO')
+                if quantidademov >= 0:
+                    
+                    preco_unitario = 0
+                    prod.quantidadeestoque -= quantidademov
+                    prod.save()
+
+                    MovimentoItem.objects.create(tipomovimento='-',produto=prod,qtdmovimento=quantidademov,
+                    preco=preco_unitario)
+                    erro = " "
+
+            if tipomov == '3':
+                if preco_unitario >= 0: 
+                    
+                    quantidademov = 0
+                    prod.preco = preco_unitario
+                    prod.save()
+
+                    MovimentoItem.objects.create(tipomovimento='$',produto=prod,qtdmovimento=quantidademov,preco=preco_unitario)
+
+                    erro = " "
         else:
             erro =  "Produto nao foi cadastrado"
 
-    return render(request,'edicao/editarestoque.html',{'prod':prod,'erro':erro})
+    return render(request,'edicao/editarestoque.html',{
+        'prod':prod,
+        'erro':erro,
+        'mvto':MovimentoItem.objects.filter(produto_id=id)})
 
 
 # ------- REMOVER PRODUTO -------
@@ -283,12 +324,26 @@ def cadastro_venda(request,id):
 
         if produtoexiste(prod.id) == True:
             print(request.POST)
+
+
             ItemVenda.objects.create(
                 venda=ven_atual,
                 produto=prod,
                 quantidade=quantidade,
                 preco_unitario=preco_unitario
             )
+
+            # item = ItemVenda.objects.get(venda=ven_atual)
+
+            # item.produto.quantidadeestoque -= item.quantidade
+            
+            MovimentoItem.objects.create(
+                tipomovimento='-',    
+                produto=prod,
+                qtdmovimento =quantidade ,
+                preco =preco_unitario
+            )
+
             return redirect('cadastrovenda',id=id)
         else:
             erro = "Produto não existe"
@@ -310,10 +365,24 @@ def cadastro_venda(request,id):
         if validacodvenda(codigo) == True:
             if validacodcliente(cli.codigo) == True:
                 if validacod(ven.codigo) == True:
-                    
-                    ven_atual.valor = valor_total    
-                    ven_atual.save()                    
-                    return redirect('vendas')
+                    if temduplicata(id) == True:
+                        
+                        duplicatavenda = Duplicata.objects.get(venda_id=id)
+
+                        duplicatavenda.valor = ven_atual.valor
+
+                        duplicatavenda.save()        
+                        
+                        ven_atual.valor = valor_total    
+                        ven_atual.save()                    
+                        return redirect('vendas')
+                    else:
+                        ven_atual.valor = valor_total    
+                        ven_atual.save()   
+
+                        Duplicata.objects.create(cliente=ven_atual.cliente,venda=ven_atual,valor=ven_atual.valor,tipo='R',pago='E')
+
+                        return redirect('vendas')
                 else:
                     erro = "Codigo Vendedor Nao Existe"
             else:
@@ -349,8 +418,19 @@ def cadastro_venda(request,id):
                     if validacod(ven.codigo) == True: 
                     
                         ItemVenda.objects.create(venda=venda_atual,produto=produtoadd,quantidade=quantidade,preco_unitario=preco_unitario)
+
+                        MovimentoItem.objects.create(
+                        tipomovimento='-',    
+                        produto=produtoadd,
+                        qtdmovimento =quantidade ,
+                        preco =preco_unitario
+                        )
                         
                         item = ItemVenda.objects.get(venda=venda_atual)
+
+                        item.produto.quantidadeestoque -= item.quantidade
+
+                        print(item.quantidade)
 
                         ven_atual.codigo = codigo
                         ven_atual.cliente = cli
@@ -387,10 +467,21 @@ def remover_venda(request,id):
 
 # ------- DUPLICATAS -----
 def duplicataview(request):
+    duplicatas = Duplicata.objects.all()
 
-    
+    return render(request,'modelos/duplicata.html',{'duplicatas':duplicatas})
 
-    return render(request,'modelos/duplicata.html')
+def excluir_duplicata(request,id):
+
+    Duplicata.objects.get(id=id).delete
+
+    return redirect('duplicatas')
+
+def estoqueview(request):
+
+    estoque = MovimentoItem.objects.all()
+
+    return render(request,'modelos/estoque.html',{'estoque':estoque})
 
 
 

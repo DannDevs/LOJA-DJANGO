@@ -33,12 +33,14 @@
 
                     <div class="col-md-4 ">
                         <label class="form-label">Código</label>
-                        <input type="number" name="codigo" value="{{prod.codigo}}" class="form-control disabled" disabled>
+                        <input type="number" name="codigo" value="{{prod.codigo}}" class="form-control disabled"
+                            disabled>
                     </div>
 
                     <div class="col-md-4">
                         <label class="form-label">Descrição</label>
-                        <input type="text" name="descricao" value="{{prod.descricao}}" class="form-control disabled" disabled>
+                        <input type="text" name="descricao" value="{{prod.descricao}}" class="form-control disabled"
+                            disabled>
                     </div>
 
                     <div class="col-md-4">
@@ -46,9 +48,9 @@
                         <input type="text" value="{{prod.quantidadeestoque}}" class="form-control disabled" disabled>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-4  ">
                         <label class="form-label">Açao</label>
-                        <select id="tipo_mov" class="form-select" required>
+                        <select name="tipomov" id="tipo_mov" class="form-select" required>
                             <option value="1">Entrada</option>
                             <option value="2">Saida</option>
                             <option value="3">Custo</option>
@@ -63,10 +65,10 @@
                         <label class="form-label">Estoque</label>
                         <input id="inputestoque" type="text" name="estoquealt" class="form-control">
                     </div>
-                    
+
                     <div class="flex text-end">
                         {% if erro %}
-                         <p style="font-weight: bold;color: red;">{{ erro }}</p>
+                        <p style="font-weight: bold;color: red;">{{ erro }}</p>
                         {% endif %}
                         <button class="checkbutton col-md-2 align-end" type="submit">Salvar</button>
                     </div>
@@ -84,7 +86,7 @@
             <table class="table table-dark table-hover align-middle">
                 <thead>
                     <tr>
-                        <th class="text-center">Código</th>
+                        <th class="text-center">Codigo</th>
                         <th class="text-center">Descrição</th>
                         <th class="text-center">Preço</th>
                         <th class="text-center">Quantidade</th>
@@ -93,14 +95,18 @@
                 </thead>
 
                 <tbody>
-
+                    {% for mv in mvto%}
                     <tr>
-                        <td class="text-center">{{ prod.codigo }}</td>
-                        <td class="text-center">{{ prod.descricao }}</td>
-                        <td class="text-center">{{ prod.preco_unitario }}</td>
-                        <td class="text-center">{{ prod.quantidade }}</td>
-                        <td class="text-center"></td>
+
+                        <td class="text-center">{{ mv.id }}</td>
+                        <td class="text-center">{{ mv.produto.descricao }}</td>
+                        <td class="text-center">{{ mv.preco }}</td>
+                        <td class="text-center">{{ mv.qtdmovimento }}</td>
+                        <td class="text-center"> {{ mv.tipomovimento }} </td>
                     </tr>
+                    {% empty %}
+
+                    {% endfor %}
                 </tbody>
             </table>
 
@@ -111,20 +117,20 @@
 </body>
 
 <script>
-    document.getElementById("tipo_mov").addEventListener("change", function(){
+    document.getElementById("tipo_mov").addEventListener("change", function () {
         let input1 = document.getElementById("inputpreco");
         let input2 = document.getElementById("inputestoque");
-        console.log('oi')
+
         input1.disabled = false;
         input2.disabled = false;
 
-        if(this.value === "1"){
+        if (this.value === "1") {
             input1.disabled = true;
         }
-        if(this.value === "2"){
+        if (this.value === "2") {
             input1.disabled = true;
         }
-        if(this.value === "3"){
+        if (this.value === "3") {
             input2.disabled = true;
         }
     });

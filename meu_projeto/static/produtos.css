@@ -1,58 +1,73 @@
-/* ======================= */
-/*   RESET / BASE GERAL    */
-/* ======================= */
+/* ======================== RESET ======================== */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    color: white;
 }
 
+/* ======================== ROOT ======================== */
+:root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+    color-scheme: light dark;
+    color: rgba(255, 255, 255, 0.87) !important;
+    background-color: #242424;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    color: rgba(255, 255, 255, 0.87) !important;
+    background-color: #242424 !important ;
+}
+
+/* ======================== INPUTS ======================== */
+.inputcadastro,
+.inputcadastrodisable {
+    width: 100%;
+    max-width: 350px;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.inputcadastro {
+    background: #f9f9f9;
+    border: 2px solid #d3d3d3;
+    color: #333;
+}
+
+.inputcadastro:focus {
+    border-color: #007bff;
+    background: #ffffff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+}
+
+.inputcadastro::placeholder {
+    color: #888;
+    opacity: 0.8;
+}
+
+.inputcadastrodisable {
+    background: #8b8989;
+    border: 2px solid #8b8989;
+    color: black;
+}
+
+/* ======================== LINKS ======================== */
 a {
     font-weight: 500 !important;
     color: #ffffff !important;
     text-decoration: inherit !important;
 }
 
-:root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    line-height: 1.5;
-    font-weight: 400;
+.linkspag { text-decoration: none; }
+.linavbar { list-style: none; font-weight: bold; }
 
-    color-scheme: light dark;
-    color: rgba(255, 255, 255, 0.87) !important;
-    background-color: #242424;
-
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-body {
-    background-color: #242424 !important;
-    color: rgba(255, 255, 255, 0.87) !important;
-}
-
-/* ======================= */
-/*      NAVBAR / LINKS     */
-/* ======================= */
-.ulnav {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 80%;
-}
-
-.linavbar {
-    list-style: none;
-    font-weight: bold;
-}
-
-.linkspag {
-    text-decoration: none;
-}
+/* ======================== BOTÕES GERAIS ======================== */
 
 /* ======================= */
 /*      BOTÕES GERAIS      */
@@ -92,18 +107,9 @@ body {
 /* ======================= */
 /*          LAYOUT         */
 /* ======================= */
+/* ======================== LAYOUT ======================== */
 .divcentral {
-    min-height: 20em;
-    padding-top: 30px;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    justify-content: space-evenly;
-    background-color: #242424;
-}
-
-.divcentralc {
-    min-height: 20em;
+    height: 20em;
     padding-top: 30px;
     display: flex;
     align-items: center;
@@ -115,34 +121,25 @@ body {
 .controlebuttons {
     width: 75%;
     display: flex;
-    align-items: center;
     justify-content: end;
+    align-items: center;
 }
 
 .buttonsalign {
     display: flex;
-    width: 20%;
+    width: 25%;
     justify-content: space-around;
     align-items: center;
 }
 
 .grid {
+    height: 40%;
     width: 73%;
     display: flex;
     flex-direction: column;
+    justify-content: start;
+    align-items: start;
 }
-
-.boldtext {
-    font-weight: bold;
-}
-
-.retornarpag {
-    width: 87%;
-    display: flex;
-    align-items: center;
-    justify-content: end;
-}
-
 /* ======================= */
 /*          INPUTS         */
 /* ======================= */
@@ -259,6 +256,7 @@ body {
 /* Abrir */
 .btn-detalhe {
     background-color: #3498db;
+    padding-left: 10px;
 }
 .btn-detalhe:hover {
     background-color: #2a7abd;
@@ -280,4 +278,3 @@ select option {
     z-index: 9999;
     color: black !important;
 }
-
