@@ -55,13 +55,20 @@
                         <td class="text-center">{{ d.tipo }}</td>
                         <td class="text-center">{{ d.pago }}</td>
 
-                        <td class="text-center">
+                        <td class="text-center d-flex justify-content-center gap-2">
                             
-                            <!-- Editar -->
+                            <!-- açoes -->
                             
-                            <a href="/" class="btn-detalhe me-2">
-                                Abrir
-                            </a>
+                            <div class=" dropdown">
+                                <button class="btn btn-primary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Ações
+                                </button>
+                                <ul class="dropdown-menu bg-dark">
+                                    <li><a class="dropdown-item" href="{% url 'baixaduplicata' d.id%}">Baixar</a></li>
+                                    <li><a class="dropdown-item" href="{% url 'removerbaixa' d.id %}">Retirar Baixa</a></li>
+                                    <li><a class="dropdown-item" href="">Vizualizar Baixa</a></li>
+                                </ul>
+                            </div>
 
                             <!-- Deletar -->
                             

@@ -41,7 +41,11 @@ urlpatterns = [
     path('venda/<int:venid>/removeritem/<int:id>',views.remover_item,name='removeritem'),
     # path('venda/additem/<int:vendaid>',views.add_item_venda,name='additemvenda'),
     path('duplicatas/',views.duplicataview,name='duplicatas'),
-    path('duplicatas/<int:id>/excluir',views.excluir_duplicata,name='removerduplicata'),
+    path('duplicatas/<int:id>/excluir/',views.excluir_duplicata,name='removerduplicata'),
+    path('duplicatas/<int:id>/baixar/',views.baixar_duplicata,name='baixaduplicata'),
+    path('duplicatas/<int:id>/removerbaixa/',views.remover_baixa,name='removerbaixa'),
+    # path('duplicatas/<int:id>/vizualizarbaixa/',views.vizulizar_baixa,name='vizulizarbaixa'),
     path('estoque/',views.estoqueview,name='estoque')
+    
 
 ]

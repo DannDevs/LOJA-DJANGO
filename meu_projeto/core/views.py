@@ -494,6 +494,31 @@ def remover_item(request,venid,id):
     ItemVenda.objects.get(id=id).delete()
     return redirect('cadastrovenda',id=venid)
 
+def remover_baixa(request,id):
+    erro = None
+    dup = Duplicata.objects.get(id=id)
+
+    if dup.pago == 'P':
+        dup.pago = 'E'
+        dup.save()
+        return redirect('duplicatas')
+    else:
+        erro = 'Duplicata Nao Possui Baixa'
+    return redirect('duplicatas')
+ 
+def baixar_duplicata(request,id):
+    erro = None
+    dup = Duplicata.objects.get(id=id)
+    
+    if dup.pago == 'E' or dup.pago == 'A':
+        dup.pago = 'P'
+        dup.save()
+        return redirect('duplicatas')
+    else:
+        erro = "Duplicata Já Foi Baixada"
+    return redirect('duplicatas')
+
+
 
 
     

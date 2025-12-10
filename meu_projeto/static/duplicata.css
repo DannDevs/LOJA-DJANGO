@@ -34,6 +34,11 @@ body {
     transition: 0.2s ease;
 }
 
+.dropdown-item:hover {
+    background-color: #333 !important;
+    color: #fff !important;
+}
+
 .inputcadastro {
     background: #f9f9f9;
     border: 2px solid #d3d3d3;
