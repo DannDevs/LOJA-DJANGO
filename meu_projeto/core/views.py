@@ -42,6 +42,10 @@ def temduplicata(id):
     return Duplicata.objects.filter(venda_id=id).exists()
 def validacodigo(codigo):
     return codigo >= 1
+def verificaestoque(codigo,quantidade):
+    produto = Produto.objects.get(codigo=codigo)
+    quantidadevalida = int(quantidade)
+    return produto.quantidadeestoque >= quantidadevalida
 
 # VENDEDORES
 
@@ -73,6 +77,7 @@ def vendedorview(request):
 
     return render(request,'modelos/vendedores.html',{
         'vendedores':vendedores})
+
 
 #  ------------ REMOVER ------------
 
@@ -312,6 +317,7 @@ def cadastro_venda(request,id):
 
     valor_total = 0
     erro = None
+    sucesso = None
     cli = None
     ven = None
 
@@ -323,28 +329,29 @@ def cadastro_venda(request,id):
         prod = Produto.objects.get(id=produto_id)
 
         if produtoexiste(prod.id) == True:
-            print(request.POST)
+            if verificaestoque(prod.codigo,quantidade):
+                ItemVenda.objects.create(
+                    venda=ven_atual,
+                    produto=prod,
+                    quantidade=quantidade,
+                    preco_unitario=preco_unitario
+                )
 
+                item = ItemVenda.objects.get(venda=ven_atual,produto=prod)
 
-            ItemVenda.objects.create(
-                venda=ven_atual,
-                produto=prod,
-                quantidade=quantidade,
-                preco_unitario=preco_unitario
-            )
-
-            # item = ItemVenda.objects.get(venda=ven_atual)
-
-            # item.produto.quantidadeestoque -= item.quantidade
-            
-            MovimentoItem.objects.create(
-                tipomovimento='-',    
-                produto=prod,
-                qtdmovimento =quantidade ,
-                preco =preco_unitario
-            )
-
-            return redirect('cadastrovenda',id=id)
+                item.produto.quantidadeestoque -= item.quantidade
+                item.produto.save()
+                
+                MovimentoItem.objects.create(
+                    tipomovimento='-',    
+                    produto=prod,
+                    qtdmovimento =quantidade ,
+                    preco =preco_unitario
+                )
+                return redirect('cadastrovenda',id=id)
+            else:
+                erro="Quantidade insuficiente"
+                
         else:
             erro = "Produto não existe"
             
@@ -416,30 +423,29 @@ def cadastro_venda(request,id):
             if validacodvenda(codigo) == False:
                 if validacodcliente(cli.codigo) == True:
                     if validacod(ven.codigo) == True: 
+                        if verificaestoque(produtoadd.codigo,quantidade):
                     
-                        ItemVenda.objects.create(venda=venda_atual,produto=produtoadd,quantidade=quantidade,preco_unitario=preco_unitario)
+                            ItemVenda.objects.create(venda=venda_atual,produto=produtoadd,quantidade=quantidade,preco_unitario=preco_unitario)
 
-                        MovimentoItem.objects.create(
-                        tipomovimento='-',    
-                        produto=produtoadd,
-                        qtdmovimento =quantidade ,
-                        preco =preco_unitario
-                        )
-                        
-                        item = ItemVenda.objects.get(venda=venda_atual)
+                            MovimentoItem.objects.create(
+                            tipomovimento='-',    
+                            produto=produtoadd,
+                            qtdmovimento =quantidade ,
+                            preco =preco_unitario
+                            )
+                            
+                            item = ItemVenda.objects.get(venda=venda_atual)
+                            item.produto.quantidadeestoque -= item.quantidade
+                            item.produto.save()
 
-                        item.produto.quantidadeestoque -= item.quantidade
-
-                        print(item.quantidade)
-
-                        ven_atual.codigo = codigo
-                        ven_atual.cliente = cli
-                        ven_atual.vendedor = ven
-                        ven_atual.valor += item.preco_unitario * item.quantidade
-                        ven_atual.save()
-
-                        return redirect('cadastrovenda', id=id)
-                        
+                            ven_atual.codigo = codigo
+                            ven_atual.cliente = cli
+                            ven_atual.vendedor = ven
+                            ven_atual.valor += item.preco_unitario * item.quantidade
+                            ven_atual.save()
+                            return redirect('cadastrovenda', id=id)
+                        else:
+                            erro = "Produto nao possui estoque"
                     else:
                         erro = "Codigo Vendedor Nao Existe"
                 else:
@@ -457,6 +463,7 @@ def cadastro_venda(request,id):
         'vendedores':vendedores,
         'produtos':produtos,
         'erro':erro,
+        'sucesso':sucesso,
         'ven_atual':ven_atual,
         'itensvenda':ItemVenda.objects.filter(venda = ven_atual)
         })
@@ -482,6 +489,10 @@ def estoqueview(request):
     estoque = MovimentoItem.objects.all()
 
     return render(request,'modelos/estoque.html',{'estoque':estoque})
+
+def remover_item(request,venid,id):
+    ItemVenda.objects.get(id=id).delete()
+    return redirect('cadastrovenda',id=venid)
 
 
 

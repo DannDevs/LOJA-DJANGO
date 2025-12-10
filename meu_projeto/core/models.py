@@ -74,6 +74,19 @@ class Duplicata(models.Model):
     tipo = models.CharField(max_length=1,choices=TIPO_CHOICES,default='R')
     pago = models.CharField(max_length=1,choices=PAGO_CHOICES,default='E')
 
+class Fornecedor(models.Model):
+    codigo = models.IntegerField()
+    razaosocial = models.CharField(max_length=100)
+    segmento = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.codigo} - {self.razaosocial}"
+
+class Entrada(models.Model):
+    codigo = models.IntegerField()
+    fornecedor = models.ForeignKey(Fornecedor,on_delete=models.CASCADE)
+    valor = models.DecimalField(max_digits=8,decimal_places=2)
+    
 
 
 

@@ -112,8 +112,12 @@
         <button type="submit" class="btn btn-secondary" name="add_item">Adicionar Item</button>
         {% endif %}
         
-        <div class="col-12 text-end mt-3">
-            
+        <div class="col-12 text-end mt-3">  
+            {% if erro %}
+                <p style="color: red; font-weight: bold;">  {{erro}} </p>
+            {% elif sucesso %}
+                <p style="color: green;font-weight: bold;">{{sucesso}}</p>
+            {% endif%}
             <a href="{% url 'vendas' %}" class="btn btn-secondary">Cancelar</a>
             <button type="submit" class="btn btn-success" name="add_venda">Salvar</button>
         </div>
@@ -127,35 +131,34 @@
     <table class="table table-dark">
         <thead>
             <tr>
-                <th>Código</th>
-                <th>Descrição</th>
-                <th>Preço</th>
-                <th>Quantidade</th>
+                <th class="text-center">Código</th>
+                <th class="text-center">Descrição</th>
+                <th class="text-center">Preço</th>
+                <th class="text-center">Quantidade</th>
+                <th class="text-center">Açoes</th>
             </tr>
         </thead>
         <tbody>
-            {% for item in itensvenda %}
+                {% for item in itensvenda %}
             <tr>
-                <td>{{ item.produto.codigo }}</td>
-                <td>{{ item.produto.descricao }}</td>
-                <td>{{ item.preco_unitario }}</td>
-                <td>{{ item.quantidade }}</td>
+                <td class="text-center">{{ item.produto.codigo }}</td>
+                <td class="text-center">{{ item.produto.descricao }}</td>
+                <td class="text-center">{{ item.preco_unitario }}</td>
+                <td class="text-center">{{ item.quantidade }}</td>
+                <td class="text-center">
+                    <a href="{% url 'removeritem' ven_atual.id item.id %}" class="btn-delete">
+                        Excluir
+                    </a>
+                </td>
             </tr>
             {% empty %}
             <tr>
                 <td colspan="5" class="text-center text-muted">Nenhum item adicionado ainda.</td>
-            </tr>
-            {% endfor %}
+            </tr> 
+        {%endfor%}
         </tbody>
     </table>
-</div>
-
-            {% if erro %}
-                <p style="color: red; font-weight: bold;">  {{erro}} </p>
-            {% elif sucesso %}
-                <p style="color: green;font-weight: bold;">{{sucesso}}</p>
-            {% endif%}
-           
+</div>     
         </div>
     </div>
 </body>

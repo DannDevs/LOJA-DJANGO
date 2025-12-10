@@ -282,29 +282,6 @@ body {
   flex-direction: column;
 
 }
-/* ===== TABELA ===== */
-.tabela-vendedores {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-family: Arial, sans-serif;
-    font-size: 15px;
-    background-color: #242424; 
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-}
-
-.tabela-vendedores thead {
-    background: #2a2472;
-    color: white;
-}
-
-.tabela-vendedores th,
-.tabela-vendedores td {
-    padding: 12px 15px;
-    border-bottom: 1px solid #e6e6e6;
-}
 
 /* ===== BOTÕES ===== */
 .btn-detalhe,
