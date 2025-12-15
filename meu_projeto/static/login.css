@@ -20,9 +20,8 @@ body {
 .login {
     min-height: 60vh;
     min-width: 40vh;
-    background-color: white;
+    background-color: #242424;
     border-radius: 30px;
-
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,10 +54,11 @@ body {
     width: 100%;
     padding: 14px 10px;
     font-size: 15px;
-    border: 1px solid #cfd8dc;
+    border: 1px solid #302e2e;
     border-radius: 8px;
     outline: none;
     background: none;
+    color: white;
 }
 
 /* FOCO */
@@ -73,8 +73,8 @@ body {
     top: 50%;
     transform: translateY(-50%);
     font-size: 14px;
-    color: #6c757d;
-    background: #fff;
+    color: #ffffff;
+    background: #242424;
     padding: 0 4px;
     pointer-events: none;
     transition: 0.2s ease;
@@ -85,7 +85,7 @@ body {
 .input-box input:not(:placeholder-shown)+label {
     top: -6px;
     font-size: 14px;
-    color: #0d6efd;
+    color: #5a8cd3;
     font-weight: bold;
 }
 
@@ -95,6 +95,15 @@ body {
     width: 60%;
 }
 
+.imgs{
+    gap: 20px;
+    display: flex;
+    align-items: start;
+}
+.img{
+    height: 150px;
+    width: 150px;
+}
 
 .buttonl button {
     border-radius: 8px;
@@ -105,7 +114,7 @@ body {
     font-family: inherit;
     cursor: pointer;
     width: 100%;
-    background-color: #0d6efd;
+    background-color: #5a8cd3;
     color: #ffffff;
     transition: border-color 0.25s;
 }
