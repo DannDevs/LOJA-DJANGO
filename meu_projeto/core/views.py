@@ -3,9 +3,12 @@ from .models import Cliente,Vendedor,Produto,Venda,MovimentoItem,ItemVenda,Dupli
 from django.http import HttpResponse
 from django.db.models import Sum,Value,DecimalField
 from django.db.models.functions import Coalesce
-
+from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login as auth_login,logout
+from django.contrib.auth.decorators import login_required
 # HOME PAGE
 
+@login_required
 def home(request):
 
     numeroclientes = Cliente.objects.count()
@@ -47,8 +50,27 @@ def verificaestoque(codigo,quantidade):
     quantidadevalida = int(quantidade)
     return produto.quantidadeestoque >= quantidadevalida
 
-# VENDEDORES
+# ----- LOGIN ---------
 
+def login_view(request):
+    erro = None
+    if request.method == 'POST':
+        usuario = request.POST.get('username')
+        senha = request.POST.get('password')
+
+        if not senha or not usuario:
+            erro = 'Preencha todos os campos'
+        else: 
+            user = authenticate(request,username=usuario,password=senha)
+            if user is not None:
+                auth_login(request,user)
+                return redirect('home')
+            else:
+                erro = 'Usuario ou senha invalidas'
+    return render(request,'views/login.html',{'erro':erro})
+
+# VENDEDORES
+@login_required
 def editar_vendedor(request,id):
     erro = None
 
@@ -70,7 +92,7 @@ def editar_vendedor(request,id):
     return render(request,'edicao/editarvendedor.html',
     {'vend':vend,'erro':erro}
     )
-
+@login_required
 def vendedorview(request):
     # ------ LISTAR ---------
     vendedores = Vendedor.objects.all()
@@ -80,13 +102,13 @@ def vendedorview(request):
 
 
 #  ------------ REMOVER ------------
-
+@login_required
 def vendedorremover(request,id):
 
     Vendedor.objects.filter(id=id).delete()
     return redirect('vendedores')
     
-
+@login_required
 def cadastro_vendedor(request):
     erro = None
 
@@ -106,13 +128,13 @@ def cadastro_vendedor(request):
                   {"erro":erro})
 
 # CLIENTE VIEW
-
+@login_required
 def clienteview(request):
     clientes = Cliente.objects.all()
     return render(request,'modelos/clientes.html',{'clientes':clientes})
 
 # ------ EDIÇAO CLIENTE -------
-
+@login_required
 def editar_cliente(request,id):
     erro = None
     cli = get_object_or_404(Cliente,id=id)
@@ -131,13 +153,13 @@ def editar_cliente(request,id):
     return render(request,'edicao/editarcliente.html',{'cli':cli,'erro':erro})
 
 # ---------- REMOVER CLIENTE ----
-
+@login_required
 def remover_cliente(request,id):
     Cliente.objects.filter(id=id).delete()
     return redirect('clientes')
 
 # ------ CADASTRO CLIENTE ----
-
+@login_required
 def cadastro_cliente(request):
     erro = None
     
@@ -156,12 +178,12 @@ def cadastro_cliente(request):
                   )
 
 # ------ PRODUTOS ------
-
+@login_required
 def produtoview(request):
     produtos = Produto.objects.all()
 
     return render(request,'modelos/produtos.html',{'produtos':produtos})
-
+@login_required
 def cadastro_produto(request):
     erro = None
 
@@ -186,6 +208,7 @@ def cadastro_produto(request):
     return render(request,'cadastros/cadastro_produto.html',{'erro':erro})
 
 # ----- EDITAR PRODUTO ------
+@login_required
 def editar_produto(request,id):
     erro = None
     prod = Produto.objects.get(id=id)
@@ -211,7 +234,7 @@ def editar_produto(request,id):
 
 
 # --------- AJUSTAR ESTOQUE
-
+@login_required
 def ajustar_estoque(request,id):
     erro  = None    
     quantidademov = 0
@@ -273,19 +296,20 @@ def ajustar_estoque(request,id):
 
 
 # ------- REMOVER PRODUTO -------
-
+@login_required
 def remover_produto(request,id):
     Produto.objects.get(id=id).delete()
     return redirect('produtos')
 
 # ------- VENDAS VIEW -------
-
+@login_required
 def vendaview(request):
 
     vendas = Venda.objects.all()
 
     return render(request,'modelos/vendas.html',{'vendas':vendas})
 
+@login_required
 def gerar_venda(request):
 
     cliente_padrao, _ = Cliente.objects.get_or_create(
@@ -306,7 +330,8 @@ def gerar_venda(request):
         )
 
     return redirect('cadastrovenda',id=nova_venda.id)
-    
+
+@login_required
 def cadastro_venda(request,id):
 
     ven_atual = get_object_or_404(Venda,id=id)
@@ -467,33 +492,34 @@ def cadastro_venda(request,id):
         'ven_atual':ven_atual,
         'itensvenda':ItemVenda.objects.filter(venda = ven_atual)
         })
-
+@login_required
 def remover_venda(request,id):
     Venda.objects.get(id=id).delete()
     return redirect('vendas')
 
 # ------- DUPLICATAS -----
+@login_required
 def duplicataview(request):
     duplicatas = Duplicata.objects.all()
 
     return render(request,'modelos/duplicata.html',{'duplicatas':duplicatas})
-
+@login_required
 def excluir_duplicata(request,id):
 
     Duplicata.objects.get(id=id).delete
 
     return redirect('duplicatas')
-
+@login_required
 def estoqueview(request):
 
     estoque = MovimentoItem.objects.all()
 
     return render(request,'modelos/estoque.html',{'estoque':estoque})
-
+@login_required
 def remover_item(request,venid,id):
     ItemVenda.objects.get(id=id).delete()
     return redirect('cadastrovenda',id=venid)
-
+@login_required
 def remover_baixa(request,id):
     erro = None
     dup = Duplicata.objects.get(id=id)
@@ -505,7 +531,7 @@ def remover_baixa(request,id):
     else:
         erro = 'Duplicata Nao Possui Baixa'
     return redirect('duplicatas')
- 
+@login_required 
 def baixar_duplicata(request,id):
     erro = None
     dup = Duplicata.objects.get(id=id)
@@ -517,6 +543,11 @@ def baixar_duplicata(request,id):
     else:
         erro = "Duplicata Já Foi Baixada"
     return redirect('duplicatas')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 
 

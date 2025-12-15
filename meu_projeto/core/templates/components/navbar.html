@@ -56,10 +56,20 @@
       </ul>
 
       <!-- lado direito -->
+        <!-- lado direito -->
+      {% if user.is_authenticated %}
+      <div class="d-flex align-items-center ms-auto mb-2 mb-lg-0">
+          <small class="me-2 nav-link">Olá, {{ user.username }}</small>
+          <a href="{% url 'logout' %}" class="btn btn-outline-danger btn-sm">Sair</a>
+      </div>
+
+
+       
+      {% else %}
       <div class="d-flex">
         <a href="/login" class="btn btn-outline-light">Login</a>
       </div>
-
+      {% endif %}
     </div>
   </div>
 </nav>  
