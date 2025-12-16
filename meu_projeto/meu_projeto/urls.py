@@ -50,7 +50,10 @@ urlpatterns = [
     path('estoque/',views.estoqueview,name='estoque'),
     path('entrada/',views.entradaview,name='entradas'),
     # path('entrada/<int:id>/edit',views.editar_entrada,name='editarentrada'),
-    # path('entrada/cadastro/<int:id>',views.cadastro_entrada,name='cadastroentrada'),
+    path('entrada/cadastro',views.cadastro_entrada,name='cadastroentrada'),
     # path('entrada/<int:id>/deletar',views.deletar_entrada,name='removerentrada'),
-
+    path('fornecedores/',views.fornecedorview,name='fornecedores'),
+    path('fornecedores/cadastro/',views.cadastro_fornecedor,name='cadastrofornecedor'),
+    path('fornecedores/<int:id>/edit',views.editar_fornecedor,name='editarfornecedor'),
+    path('fornecedores/<int:id>/excluir',views.excluir_fornecedor,name='removerfornecedor'),
 ]
