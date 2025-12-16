@@ -20,7 +20,7 @@
                 </button>
 
                 <button class="buttonp">
-                    <a href="{% url 'duplicatas' %}">Reload</a>
+                    <a href="{% url 'entradas' %}">Reload</a>
                 </button>
             </div>
         </div>
@@ -28,48 +28,32 @@
         <!-- Grid com tabela -->
         <div class="grid">
 
-            <h2 class="boldtext">Duplicatas</h2>
+            <h2 class="boldtext">Entradas</h2>
 
             <table class="tabela-vendedores">
                 <thead>
                     <tr>
                         <th class="colunmgrid text-center">Status</th>
                         <th class="text-center">Codigo</th>
-                        <th class="text-center">Venda</th>
-                        <th class="text-center">Cliente </th>
+                        <th class="text-center">Fornecedor</th>
                         <th class="text-center">Valor </th>
-                        <th class="text-center" >Tipo</th>
                         <th class="text-center">Ações</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    {% for d in duplicatas %}
+                    {% for e in entradas %}
                     
                     <tr>
-                        {% if d.pago == 'P' %}
+                        {% if e.status == 'F' %}
                         <td class="text-center"><img class="img" src="{% static 'images/pago.svg' %}" alt=""></td>
-                        {% elif d.pago == 'E' %}
+                        {% elif e.status == 'A' %}
                         <td class="text-center"><img class="img" src="{% static 'images/aberto.svg' %}">
-                        {% elif d.pago == 'A' %}
-                        <td class="text-center"><img class="img" src="{% static 'images/atraso.svg' %}">
                         {% endif %}
-                        
-                        <td class="text-center">{{ d.id }}</td>
-                        <td class="text-center">{{ d.venda }}</td>
-                        <td class="text-center">{{ d.cliente }}</td>
-                        <td class="text-center" >R$ {{d.valor}}</td>
-                      <td class="text-center status-cell">
-                            {% if d.tipo == 'P' %}
-                                <img class="img" src="{% static 'images/atraso.svg' %}" alt="Pagar">
-                            {% elif d.tipo == 'R' %}
-                                <img class="img" src="{% static 'images/pago.svg' %}" alt="Receber">
-                            {% endif %}
-                        </td>
-                                                
-                        
-                        
-
+                        <td class="text-center">{{ e.codigo }}</td>
+                        <td class="text-center">{{ e.fornecedor }}</td>
+                        <td class="text-center">{{ e.valor }}</td>
+                        <td class="text-center" >R$ {{ e.valor }}</td>
                         <td class="text-center d-flex justify-content-center gap-2">
                             
                             <!-- açoes -->

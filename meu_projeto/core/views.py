@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Cliente,Vendedor,Produto,Venda,MovimentoItem,ItemVenda,Duplicata
+from .models import Cliente,Vendedor,Produto,Venda,MovimentoItem,ItemVenda,Duplicata,Entrada
 from django.http import HttpResponse
 from django.db.models import Sum,Value,DecimalField
 from django.db.models.functions import Coalesce
@@ -19,12 +19,26 @@ def home(request):
         output_field=DecimalField())
         )['receita']
     quantidadevenda = Venda.objects.count()
+        
+    recebido = Duplicata.objects.filter(pago='P').aggregate(receita=Coalesce(
+        Sum('valor'),
+        Value(0),
+        output_field=DecimalField())
+        )['receita']
+
+    areceber = Duplicata.objects.filter(pago='E').aggregate(receita=Coalesce(
+        Sum('valor'),
+        Value(0),
+        output_field=DecimalField(),
+    ))['receita']
 
 
     return render(request, "views/home.html",{
         'numeroclientes':numeroclientes,
         'receita':receita,
-        'quantidadevenda':quantidadevenda
+        'quantidadevenda':quantidadevenda,
+        'recebido':recebido,
+        'areceber':areceber,
         })
 
 # VALIDADORES
@@ -531,6 +545,7 @@ def remover_baixa(request,id):
     else:
         erro = 'Duplicata Nao Possui Baixa'
     return redirect('duplicatas')
+
 @login_required 
 def baixar_duplicata(request,id):
     erro = None
@@ -543,6 +558,19 @@ def baixar_duplicata(request,id):
     else:
         erro = "Duplicata Já Foi Baixada"
     return redirect('duplicatas')
+
+
+@login_required
+def entradaview(request):
+    entradas = Entrada.objects.all()
+    return render(request,'modelos/entradas.html',{'entradas':entradas})
+
+
+
+
+
+
+
 
 
 def logout_view(request):

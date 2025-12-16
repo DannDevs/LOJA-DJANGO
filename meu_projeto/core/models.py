@@ -83,9 +83,26 @@ class Fornecedor(models.Model):
         return f"{self.codigo} - {self.razaosocial}"
 
 class Entrada(models.Model):
+
+    STATUS_CHOICES = [
+        ('F','Faturado'),
+        ('A','Aberto'),
+    ]
+
+    status= models.CharField(max_length=1,choices=STATUS_CHOICES)
     codigo = models.IntegerField()
-    fornecedor = models.ForeignKey(Fornecedor,on_delete=models.CASCADE)
+    fornecedor = models.ForeignKey(Fornecedor,on_delete=models.PROTECT,related_name='fornecedores')
     valor = models.DecimalField(max_digits=8,decimal_places=2)
+
+class ItensEntrada(models.Model):
+    
+    entrada = models.ForeignKey(Entrada, on_delete=models.CASCADE)
+    produto = models.ForeignKey(Produto, on_delete=models.PROTECT)
+    quantidade = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+    preco_unitario = models.DecimalField(max_digits=10,decimal_places=2,default=0)
+
+    def __str__(self):
+        return f"{self.produto}"
     
 
 

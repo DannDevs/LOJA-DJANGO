@@ -47,7 +47,10 @@ urlpatterns = [
     path('duplicatas/<int:id>/baixar/',views.baixar_duplicata,name='baixaduplicata'),
     path('duplicatas/<int:id>/removerbaixa/',views.remover_baixa,name='removerbaixa'),
     # path('duplicatas/<int:id>/vizualizarbaixa/',views.vizulizar_baixa,name='vizulizarbaixa'),
-    path('estoque/',views.estoqueview,name='estoque')
-    
+    path('estoque/',views.estoqueview,name='estoque'),
+    path('entrada/',views.entradaview,name='entradas'),
+    # path('entrada/<int:id>/edit',views.editar_entrada,name='editarentrada'),
+    # path('entrada/cadastro/<int:id>',views.cadastro_entrada,name='cadastroentrada'),
+    # path('entrada/<int:id>/deletar',views.deletar_entrada,name='removerentrada'),
 
 ]
