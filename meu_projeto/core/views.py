@@ -564,7 +564,6 @@ def baixar_duplicata(request,id):
         erro = "Duplicata Já Foi Baixada"
     return redirect('duplicatas')
 
- 
 @login_required
 def entradaview(request):
 
@@ -572,17 +571,6 @@ def entradaview(request):
 
     return render(request,'modelos/entradas.html',{'entradas':entradas})
 
-
-
-
-
-
-
-
-
-def logout_view(request):
-    logout(request)
-    return redirect('login')
 @login_required
 def fornecedorview(request):
 
@@ -611,19 +599,37 @@ def excluir_fornecedor(request,id):
     return redirect('fornecedores')
 @login_required
 def editar_fornecedor(request,id):
+    erro = None
+    forn = get_object_or_404(Fornecedor,id=id)
+    codigo = request.POST.get('codigofor')
+    razaosocial = request.POST.get('razaofor')
+    segmento = request.POST.get('segmentofor')
 
     if request.method == 'POST':
-        pass
-    
+        print(codigo)
+        print(forn.codigo)
+        print(validacodfor(codigo))
+        if validacodfor(codigo) == False or forn.codigo != codigo:
+            forn.codigo = codigo
+            forn.razaosocial = razaosocial
+            forn.segmento = segmento
+            forn.save()
+            return redirect('fornecedores')
+        else:
+            erro = 'Codigo ja Cadastrado'
     context = {
         'forn': Fornecedor.objects.get(id=id),
+        'erro':erro,
     }
 
     return render(request,'edicao/editarfornecedor.html',context)
             
 
 
-    
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
     
     
