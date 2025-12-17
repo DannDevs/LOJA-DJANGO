@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect,get_object_or_404
-from .models import Cliente,Vendedor,Produto,Venda,MovimentoItem,ItemVenda,Duplicata,Entrada
+from .models import Cliente,Vendedor,Produto,Venda,MovimentoItem,ItemVenda,Duplicata,Entrada,Fornecedor
 from django.http import HttpResponse
 from django.db.models import Sum,Value,DecimalField
 from django.db.models.functions import Coalesce
@@ -59,10 +59,15 @@ def temduplicata(id):
     return Duplicata.objects.filter(venda_id=id).exists()
 def validacodigo(codigo):
     return codigo >= 1
+def validacodfor(codigo):
+    return Fornecedor.objects.filter(codigo=codigo).exists()
 def verificaestoque(codigo,quantidade):
     produto = Produto.objects.get(codigo=codigo)
     quantidadevalida = int(quantidade)
     return produto.quantidadeestoque >= quantidadevalida
+def validarnulo(arg):
+    return arg is None or valor == ''
+ 
 
 # ----- LOGIN ---------
 
@@ -562,16 +567,60 @@ def baixar_duplicata(request,id):
  
 @login_required
 def entradaview(request):
+
     entradas = Entrada.objects.all()
+
     return render(request,'modelos/entradas.html',{'entradas':entradas})
+
+
+
+
+
+
 
 
 
 def logout_view(request):
     logout(request)
     return redirect('login')
+@login_required
+def fornecedorview(request):
 
+    fornecedores = Fornecedor.objects.all()
 
+    return render(request,'modelos/fornecedores.html',{'fornecedores':fornecedores})
+
+@login_required
+def cadastro_fornecedor(request):
+    erro = None
+    codigo = request.POST.get('codigofor')
+    razaosocial = request.POST.get('razaofor')
+    segmento = request.POST.get('segmentofor')
+    if request.method == 'POST':
+        if validacodfor(codigo) == False:
+            Fornecedor.objects.create(codigo=codigo,razaosocial=razaosocial,segmento=segmento)
+            return redirect('fornecedores')
+        else:
+            erro = 'Codigo Já Existe'
+    return render(request,'cadastros/cadastro_fornecedor.html',{'erro':erro})
+
+@login_required
+def excluir_fornecedor(request,id):
+    Fornecedor.objects.get(id=id).delete()
+
+    return redirect('fornecedores')
+@login_required
+def editar_fornecedor(request,id):
+
+    if request.method == 'POST':
+        pass
+    
+    context = {
+        'forn': Fornecedor.objects.get(id=id),
+    }
+
+    return render(request,'edicao/editarfornecedor.html',context)
+            
 
 
     
