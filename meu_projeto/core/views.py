@@ -559,17 +559,11 @@ def baixar_duplicata(request,id):
         erro = "Duplicata Já Foi Baixada"
     return redirect('duplicatas')
 
-
+ 
 @login_required
 def entradaview(request):
     entradas = Entrada.objects.all()
     return render(request,'modelos/entradas.html',{'entradas':entradas})
-
-
-
-
-
-
 
 
 
